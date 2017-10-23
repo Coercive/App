@@ -6,12 +6,8 @@ use Coercive\App\Core\App;
 /**
  * Service Provider Interface
  *
- * @package 	Coercive\App\Settings
- * @link		https://github.com/Coercive/App
- *
- * @author  	Anthony Moral <contact@coercive.fr>
- * @copyright   2017 - 2018 Anthony Moral
- * @license 	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @package	Coercive\App\Settings
+ * @author	Anthony Moral <contact@coercive.fr>
  */
 interface ServiceProviderInterface {
 
