@@ -137,35 +137,107 @@ class App extends AbstractApp {
 		# Skip Static Construct
 		if(self::$oApp) { return; }
 
+		/**
+		 *
+		 * @todo ça ok c'est important
+		 *
+		 */
+
 		# Toutes les erreurs sont transformées en exceptions
 		$this->_errorToException();
+
+		/**
+		 *
+		 * @todo pourquoi pas, peut-on améliorer ?
+		 *
+		 */
 
 		# Init Cache
 		$this->_initCache();
 
+		/**
+		 *
+		 * @todo ok obligatoire
+		 *
+		 */
+
 		# Chargement du Router
 		$this->_initRouter();
+
+		/**
+		 *
+		 * @todo faire une classe Language pour gérer ça (à injecter en tant que service)
+		 * @todo et laisser une méthode libre pour l'intégration dans l'App et la gestion par projet
+		 *
+		 */
 
 		# Gestion de la langue
 		$this->_manageLanguage();
 
+		/**
+		 *
+		 * @todo à revoir
+		 * @todo une méthode publique
+		 * @todo et une class qui gère l'intégration des services
+		 *
+		 */
+
 		# Chargement de Services
 		$this->_addServices($this);
+
+		/**
+		 *
+		 * @todo l'initialisation se fera par l'ordre reçu en add service
+		 * @todo et on aura un objet Service avec des informations "register" et "boot" pour initialiser avant le lancement général
+		 *
+		 */
 
 		# Initialisation de Services
 		$this->_initServices();
 
+		/**
+		 *
+		 * @todo ça fait partie des services
+		 *
+		 */
+
 		# Détection XSS
 		$this->_xssWall();
+
+		/**
+		 *
+		 * @todo C'est relié à la BDD du projet, mais sans doute qu'on peut l'injecter en tant que service, à voir.
+		 * @todo Peut-être faire un processus de compilation avant démarage de l'app (register) ?
+		 *
+		 */
 
 		# Blocage IP
 		new IpBlock($this);
 
+		/**
+		 *
+		 * @todo idem, mais une méthode séparer à redéfinir c'est pas mal
+		 *
+		 */
+
 		# Gestion Online / Offline
 		$this->_maintenance();
 
+		/**
+		 *
+		 * @todo trouver des idées pour ça
+		 *
+		 */
+
 		# Gestion Redirections
 		$this->_redirectLinkManagement();
+
+		/**
+		 *
+		 * @todo Utiliser autant que possible l'objet loader du Router
+		 * @todo il faudra peut-être l'améliorer vu qu'il n'a pas été utilisé encore ...
+		 *
+		 */
 
 		# Chargement Controller
 		$this->_loadController();
@@ -418,6 +490,13 @@ class App extends AbstractApp {
 	 * @return void
 	 */
 	private function allowRequestedFile($mFileName) {
+
+		/**
+		 *
+		 * @todo voir l'abstract, faire une classe pour charger des fichiers public ou privé avec des options
+		 *
+		 */
+
 		$sRequestedFile = trim($this->Router->getCurrentURL(), '/');
 		if(is_string($mFileName)) $mFileName = [$mFileName];
 		if(!in_array($sRequestedFile, $mFileName, true)) return;

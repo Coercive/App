@@ -10,6 +10,13 @@ use DateTimeZone;
 abstract class AbstractApp extends Container {
 
 	/**
+	 *
+	 * @todo on a vraiment besoin de Pimple ?
+	 * @todo faire un Service handler plutôt qu'une class array access ?
+	 *
+	 */
+
+	/**
 	 * GET SERVICE
 	 *
 	 * @param string $sName
@@ -44,6 +51,13 @@ abstract class AbstractApp extends Container {
 	 * @return string Path
 	 */
 	public function includePublicFile($sFile) {
+
+		/**
+		 *
+		 * @todo faire un service d'inclusion de fichier public
+		 *
+		 */
+
 		$sFile = str_replace(' ', '', $sFile);
 		$sFile = trim($sFile, '/');
 		$sSrvPath = realpath(SRV_BASEPATH . "/web/$sFile");
@@ -58,6 +72,13 @@ abstract class AbstractApp extends Container {
 	 * @return void
 	 */
 	public function downloadFile($sPath, $sName) {
+
+		/**
+		 *
+		 * @todo ça sert à rien de faire une méthode relai pour juste une ligne -> à virer
+		 *
+		 */
+
 		FileDownload::createFromFilePath($sPath)->sendDownload($sName);
 	}
 
@@ -69,6 +90,13 @@ abstract class AbstractApp extends Container {
 	 * @return void
 	 */
 	public function downloadString($sString, $sName) {
+
+		/**
+		 *
+		 * @todo ça sert à rien de faire une méthode relai pour juste une ligne -> à virer
+		 *
+		 */
+
 		FileDownload::createFromString($sString)->sendDownload($sName);
 	}
 
@@ -76,6 +104,12 @@ abstract class AbstractApp extends Container {
 	 * SET LOCALE
 	 */
 	protected function setLocale() {
+
+		/**
+		 *
+		 * @todo faire un service de gestion de locale (voir si ça existe déjà ?)
+		 *
+		 */
 
 		# Skip
 		if (!defined('LANGUAGE')) { return; }
@@ -100,6 +134,13 @@ abstract class AbstractApp extends Container {
 	 * @return DateTimeZone
 	 */
 	public function serverTimeZone() {
+
+		/**
+		 *
+		 * @todo faire un service de gestion de locale (voir si ça existe déjà ?)
+		 *
+		 */
+
 		return new DateTimeZone(ini_get('date.timezone'));
 	}
 
@@ -111,6 +152,13 @@ abstract class AbstractApp extends Container {
 	 * @return string
 	 */
 	public function strftime($sSqlDate, $sPattern = "%A %d %B %Y %H:%M:%S") {
+
+		/**
+		 *
+		 * @todo faire un service de gestion de locale (voir si ça existe déjà ?)
+		 *
+		 */
+
 		return strftime($sPattern, (new DateTime($sSqlDate, $this->serverTimeZone()))->getTimestamp());
 	}
 
@@ -123,6 +171,13 @@ abstract class AbstractApp extends Container {
 	 * @return int
 	 */
 	public function isJetLagScriptDiffers() {
+
+		/**
+		 *
+		 * @todo faire un service de gestion de locale (voir si ça existe déjà ?)
+		 *
+		 */
+
 		return strcmp(date_default_timezone_get(), ini_get('date.timezone'));
 	}
 
