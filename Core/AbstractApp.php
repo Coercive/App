@@ -1,18 +1,37 @@
 <?php
 namespace Coercive\App\Core;
 
-use Pimple\Container;
-use Apfelbox\FileDownload\FileDownload;
-
 use DateTime;
 use DateTimeZone;
+use Pimple\Container;
+use Coercive\App\Settings\Config;
+use Coercive\App\Settings\AppInterface;
 
-abstract class AbstractApp extends Container {
+/**
+ * Abstract App
+ *
+ * @package	Coercive\App\Core
+ * @author	Anthony Moral <contact@coercive.fr>
+ */
+abstract class AbstractApp extends Container implements AppInterface {
+
+	/** @var Config */
+	protected $_oConfig;
+
+	/**
+	 * @inheritdoc
+	 * @see AppInterface::__construct
+	 */
+	public function __construct(Config $oConfig) {
+
+		$this->_oConfig = $oConfig;
+
+	}
 
 	/**
 	 *
 	 * @todo on a vraiment besoin de Pimple ?
-	 * @todo faire un Service handler plutôt qu'une class array access ?
+	 * @todo faire un pimple maison ?
 	 *
 	 */
 
@@ -23,12 +42,6 @@ abstract class AbstractApp extends Container {
 	 * @return object
 	 */
 	public function __get($sName) {
-
-		/**
-		 *
-		 * @todo utiliser un objet Service à la place de cette merde
-		 *
-		 */
 
 		# PROPERTY
 		if(isset($this->{$sName})) { return $this->{$sName}; }

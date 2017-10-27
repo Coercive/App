@@ -8,11 +8,7 @@ use Coercive\App\Exception\ServiceAccessException;
  * Service Access
  *
  * @package 	Coercive\App\Factory
- * @link		https://github.com/Coercive/App
- *
  * @author  	Anthony Moral <contact@coercive.fr>
- * @copyright   2017 - 2018 Anthony Moral
- * @license 	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  */
 abstract class AbstractServiceAccess {
 
@@ -27,12 +23,6 @@ abstract class AbstractServiceAccess {
 	 * @throws ServiceAccessException
 	 */
 	public function __get($sName) {
-
-		/**
-		 *
-		 * @todo utiliser un objet Service à la place de cette merde
-		 *
-		 */
 
 		# OBJECT PROPERTY
 		if(isset($this->app->{$sName})) { return $this->app->{$sName}; }
