@@ -1,10 +1,12 @@
 <?php
-namespace Coercive\App\Factory;
+namespace Coercive\App\Service;
+
+use Coercive\App\Factory\AbstractServiceAccess;
 
 /**
  * Includer
  *
- * @package	Coercive\App\Factory
+ * @package	Coercive\App\Service
  * @author	Anthony Moral <contact@coercive.fr>
  */
 class Includer extends AbstractServiceAccess {

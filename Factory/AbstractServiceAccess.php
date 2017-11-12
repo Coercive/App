@@ -3,6 +3,8 @@ namespace Coercive\App\Factory;
 
 use Coercive\App\Core\App;
 use Coercive\App\Settings\Config;
+use Coercive\App\Service\Locale;
+use Coercive\App\Service\Includer;
 use Coercive\App\Exception\ServiceAccessException;
 
 /**

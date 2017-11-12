@@ -1,12 +1,12 @@
 <?php
-namespace Coercive\App\Factory;
+namespace Coercive\App\Service;
 
 use ArrayAccess;
 
 /**
  * Container
  *
- * @package	Coercive\App\Factory
+ * @package	Coercive\App\Service
  * @author	Anthony Moral <contact@coercive.fr>
  */
 class Container implements ArrayAccess {

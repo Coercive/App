@@ -2,10 +2,10 @@
 namespace Coercive\App\Core;
 
 use InvalidArgumentException;
-use Coercive\App\Factory\Locale;
+use Coercive\App\Service\Locale;
 use Coercive\App\Settings\Config;
-use Coercive\App\Factory\Includer;
-use Coercive\App\Factory\Container;
+use Coercive\App\Service\Includer;
+use Coercive\App\Service\Container;
 use Coercive\App\Settings\AppInterface;
 
 /**

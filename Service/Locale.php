@@ -1,13 +1,14 @@
 <?php
-namespace Coercive\App\Factory;
+namespace Coercive\App\Service;
 
 use DateTime;
 use DateTimeZone;
+use Coercive\App\Factory\AbstractServiceAccess;
 
 /**
  * Locale
  *
- * @package	Coercive\App\Factory
+ * @package	Coercive\App\Service
  * @author	Anthony Moral <contact@coercive.fr>
  */
 class Locale extends AbstractServiceAccess {
