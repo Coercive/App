@@ -2,6 +2,7 @@
 namespace Coercive\App\Factory;
 
 use Coercive\App\Core\App;
+use Coercive\App\Settings\Config;
 use Coercive\App\Exception\ServiceAccessException;
 
 /**
@@ -9,6 +10,10 @@ use Coercive\App\Exception\ServiceAccessException;
  *
  * @package 	Coercive\App\Factory
  * @author  	Anthony Moral <contact@coercive.fr>
+ *
+ * @property Config $Config
+ * @property Locale $Locale
+ * @property Includer $Includer
  */
 abstract class AbstractServiceAccess {
 
