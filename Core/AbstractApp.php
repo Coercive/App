@@ -20,8 +20,55 @@ use Coercive\App\Settings\AppInterface;
  */
 abstract class AbstractApp extends Container implements AppInterface {
 
-	/** @var Config */
-	protected $_oConfig;
+	/**
+	 * Transform PHP errors to Exception handler
+	 *
+	 * Example : you can use the Coercive\FatalNotifyer system or your custom code
+	 *
+	 * @return void
+	 */
+	abstract protected function _errorToException();
+
+	/**
+	 * SetUp Services
+	 *
+	 * Example : $this['OBJECT'] = function () use($oApp) { return new OBJECT(); };
+	 *
+	 * @return void
+	 */
+	abstract protected function _addServices();
+
+	/**
+	 * Init Services
+	 *
+	 * After add services you can add some code to init some services
+	 *
+	 * @return void
+	 */
+	abstract protected function _initServices();
+
+	/**
+	 * Manage Language
+	 *
+	 * The custom code for handle site language, bind for router, for locale etc...
+	 *
+	 * @return void
+	 */
+	abstract protected function _manageLanguage();
+
+	/**
+	 * The custom code launch just before app run
+	 *
+	 * @return void
+	 */
+	abstract protected function _beforeRun();
+
+	/**
+	 * The custom code launch just after app run
+	 *
+	 * @return void
+	 */
+	abstract protected function _afterRun();
 
 	/**
 	 * @inheritdoc
@@ -29,7 +76,6 @@ abstract class AbstractApp extends Container implements AppInterface {
 	 */
 	public function __construct(Config $oConfig) {
 
-		$this->_oConfig = $oConfig;
 		$this['Config'] = function () use($oConfig) { return $oConfig; };
 
 	}

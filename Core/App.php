@@ -11,6 +11,8 @@ namespace Coercive\App\Core;
  */
 
 # Coercive
+use Coercive\App\Factory\Includer;
+use Coercive\App\Factory\Locale;
 use Coercive\Security\Cookie\Cookie;
 use Coercive\Security\Token\Token;
 use Coercive\Utility\Render\Render;
@@ -339,112 +341,37 @@ class App extends AbstractApp {
 		}
 	}
 
+
 	/**
-	 * Ajoute des Services(Controller, Model, Divers) à App
-	 *
-	 * @param App $oApp
+	 * @inheritdoc
+	 * @see AbstractApp::_addServices()
 	 */
-	private function _addServices($oApp) {
+	protected function _addServices() {
 
-		# STATIC ---------
-		$this['DB'] = function () { return Db::get(); };
-		$this['Translate'] = function () use ($oApp) { return Translate::getInstance($oApp); };
-		# STATIC ---------
+		# Bind for callables
+		$oApp = $this;
 
-		# SHORTCUT ---------
+		# Basics App Utils
+		$this['Locale'] = function () use ($oApp) { return new Locale($oApp); };
+		$this['Includer'] = function () use ($oApp) { return new Includer($oApp); };
+
+		# Externals utils
 		$this['XssUrl'] = function () { return new XssUrl; };
-		$this['Purge'] = function () { return new Purge(['127.0.0.1', '178.33.45.144']); };
 		$this['Token'] = function () { return new Token; };
 		$this['Browser'] = function () { return new Browser; };
 		$this['Slugify'] = function () { return new Slugify; };
-		$this['ImageEngine'] = function () use ($oApp) { return new ImageEngine($oApp); };
+
+
+
+		/**
+		 *
+		 * @todo ça faut en faire un propre
+		 *
+		 */
+
 		$this['Session'] = function () use ($oApp) { return new Session($oApp); };
-		$this['Error'] = function () use ($oApp) { return new Error($oApp); };
-		$this['Render'] = function () { return new Render(SRV_BASEPATH . '/view/'); };
-		$this['Email'] = function () use ($oApp) { return new Email($oApp); };
-		$this['EmailMonitoring'] = function () use ($oApp) { return new EmailMonitoring($oApp); };
-		# SHORTCUT ---------
 
-		# FACTORY ---------
-		$this['Controller'] = function () use ($oApp) { return new ControllerFactory($oApp); };
-		$this['Model'] = function () use ($oApp) { return new ModelFactory($oApp); };
-		$this['Misc'] = function () use ($oApp) { return new MiscFactory($oApp); };
-		# FACTORY ---------
 
-	}
-
-	/**
-	 * Initialise certains services
-	 */
-	private function _initServices() {
-
-		$this->Translate;
-		$this->Session;
-
-	}
-
-	/**
-	 * Gestion de la langue FR - EN
-	 *
-	 * @return void
-	 */
-	private function _manageLanguage() {
-		# Route Lang
-		$sLang = $this->Router->getLang();
-		$bValidURL = $this->Router->getId() && !in_array($this->Router->getId(), ['HOME', 'NATIXIS_AUTO_RESPONSE'], true);
-
-		# Langue enregistrée
-		$sLangCookie = (string) Cookie::getSafe('language');
-
-		# Langue via route
-		if ($bValidURL && $sLang && $sLangCookie !== $sLang) {
-			Cookie::setSafe('language', $sLang, time() + 3600);
-			$sLangCookie = $sLang;
-		}
-
-		# Set
-		if (!$sLangCookie || ($sLangCookie !== 'FR' && $sLangCookie !== 'EN')) {
-			# Langue par défaut du site
-			Cookie::setSafe('language', 'FR', time() + 3600);
-			if (!defined('LANGUAGE')) { define('LANGUAGE', 'FR'); }
-		} else {
-			# Sinon, langue demandée
-			if (!defined('LANGUAGE')) { define('LANGUAGE', $sLangCookie); }
-		}
-
-		# Php Locale
-		$this->setLocale();
-	}
-
-	/**
-	 * Supprime les redirections inutiles
-	 *
-	 * Réinitialise les éventuelles redirections
-	 * Sauf si l'utilisateur est en cours de connection (formulaire/process/message de connexion)
-	 * Désactiver la méthode en cas d'AJAX
-	 *
-	 * @return void
-	 */
-	private function _redirectLinkManagement() {
-
-		# AJAX ? => Skip
-		if($this->Router->isAjaxRequest()) { return; }
-
-		# Désactivé pour les pages de connexion
-		if(in_array($this->Router->getId(), ['CONNECTION_FORM', 'CONNECTION_LOGIN', 'CONNECTION_LOGOUT'], true)) { return; }
-
-		$this->Session->deleteRedirectLink();
-	}
-
-	/**
-	 * Set Error To Exception
-	 *
-	 * @return void
-	 */
-	private function _errorToException() {
-		set_error_handler(function ($iSeverity, $sMessage, $sFileName, $iLine, $aContext) {
-			throw new ErrorException($sMessage, 0, $iSeverity, $sFileName, $iLine);
-		});
 	}
 
 	/**
@@ -458,6 +385,14 @@ class App extends AbstractApp {
 		$sControllerPath = $this->Router->getController();
 
 		# Vérification Information de Route
+
+		/**
+		 *
+		 * @todo améliorer ça
+		 * (Namespace \ ... \ ... \) Controller :: method
+		 *
+		 */
+
 		$bMatched = preg_match('`^(?P<project_code>[a-z]+)\\\(?P<controller>.*)::(?P<method>[a-z0-9\-_]+)$`i', $sControllerPath, $aMatches);
 		$sProjectCode = empty($aMatches['project_code']) ? '' : $aMatches['project_code'];
 		$sController = empty($aMatches['controller']) ? '' : $sProjectCode . '\\' . $aMatches['controller'];
@@ -494,6 +429,12 @@ class App extends AbstractApp {
 		/**
 		 *
 		 * @todo voir l'abstract, faire une classe pour charger des fichiers public ou privé avec des options
+		 *
+		 */
+
+		/**
+		 *
+		 * pas d'include pourris : utiliser la classe fileserve c'est là pour ça
 		 *
 		 */
 
