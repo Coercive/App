@@ -1,7 +1,7 @@
 <?php
 namespace Coercive\App\Factory;
 
-use Coercive\App\Core\App;
+use Coercive\App\Core\AbstractApp;
 use Coercive\App\Settings\Config;
 use Coercive\App\Service\Locale;
 use Coercive\App\Service\Includer;
@@ -10,8 +10,8 @@ use Coercive\App\Exception\ServiceAccessException;
 /**
  * Service Access
  *
- * @package 	Coercive\App\Factory
- * @author  	Anthony Moral <contact@coercive.fr>
+ * @package Coercive\App\Factory
+ * @author Anthony Moral <contact@coercive.fr>
  *
  * @property Config $Config
  * @property Locale $Locale
@@ -19,7 +19,7 @@ use Coercive\App\Exception\ServiceAccessException;
  */
 abstract class AbstractServiceAccess {
 
-	/** @var App */
+	/** @var AbstractApp */
 	public $app = null;
 
 	/**
@@ -45,9 +45,9 @@ abstract class AbstractServiceAccess {
 	/**
 	 * AbstractServiceAccess constructor.
 	 *
-	 * @param App $app
+	 * @param AbstractApp $app
 	 */
-	public function __construct(App $app) {
+	public function __construct(AbstractApp $app) {
 
 		$this->app = $app;
 
