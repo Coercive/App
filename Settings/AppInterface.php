@@ -19,14 +19,6 @@ interface AppInterface {
 	public function __construct(Config $oConfig);
 
 	/**
-	 * Bind a service to the App system
-	 *
-	 * @param callable $oCallable
-	 * @return $this
-	 */
-	public function addService(callable $oCallable);
-
-	/**
 	 * Launch the App
 	 *
 	 * @return void
