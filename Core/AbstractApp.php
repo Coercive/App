@@ -2,8 +2,10 @@
 namespace Coercive\App\Core;
 
 use InvalidArgumentException;
-use Coercive\App\Factory\Container;
+use Coercive\App\Factory\Locale;
 use Coercive\App\Settings\Config;
+use Coercive\App\Factory\Includer;
+use Coercive\App\Factory\Container;
 use Coercive\App\Settings\AppInterface;
 
 /**
@@ -11,6 +13,10 @@ use Coercive\App\Settings\AppInterface;
  *
  * @package	Coercive\App\Core
  * @author	Anthony Moral <contact@coercive.fr>
+ *
+ * @property Config $Config
+ * @property Locale $Locale
+ * @property Includer $Includer
  */
 abstract class AbstractApp extends Container implements AppInterface {
 
