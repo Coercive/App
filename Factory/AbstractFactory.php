@@ -2,7 +2,7 @@
 namespace Coercive\App\Factory;
 
 use ReflectionClass;
-use Coercive\App\Core\App;
+use Coercive\App\Core\AbstractApp;
 use Coercive\App\Settings\FactoryInterface;
 use Coercive\App\Exception\FactoryException;
 
@@ -28,16 +28,16 @@ abstract class AbstractFactory implements FactoryInterface {
 	/** @var string NameSpace */
 	protected $_sNameSpace;
 
-	/** @var App $app */
+	/** @var AbstractApp $app */
 	protected $app;
 
 	/**
 	 * AbstractFactory constructor.
 	 *
-	 * @param App $app
+	 * @param AbstractApp $app
 	 * @throws FactoryException
 	 */
-	public function __construct(App $app) {
+	public function __construct(AbstractApp $app) {
 
 		# Bind App
 		$this->app = $app;
