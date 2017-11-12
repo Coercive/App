@@ -3,8 +3,8 @@ namespace Coercive\App\Factory;
 
 use ReflectionClass;
 use Coercive\App\Core\App;
-use Coercive\App\Exception\FactoryException;
 use Coercive\App\Settings\FactoryInterface;
+use Coercive\App\Exception\FactoryException;
 
 /**
  * Factory
@@ -39,13 +39,13 @@ abstract class AbstractFactory implements FactoryInterface {
 	 */
 	public function __construct(App $app) {
 
-		# APP
+		# Bind App
 		$this->app = $app;
 
-		# NAMESPACE DIRECTORY
+		# Namespace directory
 		$this->_sNameSpace = $this->getNamespace();
 		if(!$this->_sNameSpace) {
-			throw new FactoryException("Empty factory namespace given.");
+			throw new FactoryException('Empty factory namespace given.');
 		}
 
 	}
@@ -54,7 +54,7 @@ abstract class AbstractFactory implements FactoryInterface {
 	 * Class Loader
 	 *
 	 * @param string $sName
-	 * @param array $aCustomParams
+	 * @param array $aCustomParams [optional]
 	 * @return object Class
 	 * @throws FactoryException
 	 */
@@ -83,7 +83,7 @@ abstract class AbstractFactory implements FactoryInterface {
 		$oConstructor = $oClass->getConstructor();
 
 		# No constructor declared
-		if (null ===$oConstructor) {
+		if (null === $oConstructor) {
 			return $this->_aInstances[$sClass] = $oClass->newInstanceWithoutConstructor();
 		}
 
