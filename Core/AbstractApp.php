@@ -2,21 +2,19 @@
 namespace Coercive\App\Core;
 
 use InvalidArgumentException;
-use Coercive\App\Service\Locale;
 use Coercive\App\Settings\Config;
-use Coercive\App\Service\Includer;
 use Coercive\App\Service\Container;
 use Coercive\App\Settings\AppInterface;
 
 /**
- * Abstract App
+ * Class Abstract App
  *
- * @package	Coercive\App\Core
- * @author	Anthony Moral <contact@coercive.fr>
+ * Unus pro omnibus, omnes pro uno, nos autem fortes, nos unum sumus.
+ *
+ * @package Coercive\App\Core
+ * @author  Anthony <contact@anthonymoral.fr>
  *
  * @property Config $Config
- * @property Locale $Locale
- * @property Includer $Includer
  */
 abstract class AbstractApp extends Container implements AppInterface {
 
@@ -28,6 +26,25 @@ abstract class AbstractApp extends Container implements AppInterface {
 	 * @return void
 	 */
 	abstract protected function _errorToException();
+
+	/**
+	 * Init Cache System
+	 *
+	 * The custom code for initialize cache (if wanted)
+	 *
+	 * @return void
+	 */
+	abstract protected function _initCache();
+
+	/**
+	 * Init Router System
+	 *
+	 * The custom code for initialize your custom router
+	 * Example : you can use Coercive\Router system
+	 *
+	 * @return void
+	 */
+	abstract protected function _initRouter();
 
 	/**
 	 * SetUp Services
