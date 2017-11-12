@@ -25,4 +25,15 @@ interface AppInterface {
 	 */
 	public function run();
 
+	/**
+	 * STATIC APP
+	 *
+	 * The custom code to prepare the App object with options to not start the website
+	 * Useful for external system
+	 *
+	 * @param array $aOptions [optional]
+	 * @return $this
+	 */
+	static public function getApp($aOptions = []);
+
 }
