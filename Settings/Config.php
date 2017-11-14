@@ -319,21 +319,21 @@ class Config {
 	/**
 	 * SETTER : TEST_MODE
 	 *
-	 * @param string $sTestMode
+	 * @param bool $bTestMode
 	 * @return $this
 	 */
-	public function setTestMode($sTestMode) {
-		$this->_aDatas[self::TEST_MODE] = (string) $sTestMode;
+	public function setTestMode($bTestMode) {
+		$this->_aDatas[self::TEST_MODE] = (bool) $bTestMode;
 		return $this;
 	}
 
 	/**
 	 * GETTER : TEST_MODE
 	 *
-	 * @return string
+	 * @return bool
 	 */
 	public function getTestMode() {
-		return $this->_aDatas[self::TEST_MODE] ?? '';
+		return $this->_aDatas[self::TEST_MODE] ?? false;
 	}
 
 	/**
