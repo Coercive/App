@@ -25,7 +25,7 @@ class Container implements ArrayAccess {
 	 * @return bool
 	 */
 	public function offsetExists($offset) {
-		return isset($this->keys[$offset]);
+		return isset($this->_aKeys[$offset]);
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Container implements ArrayAccess {
 	 * @return mixed|null
 	 */
 	public function offsetGet($offset) {
-		return isset($this->keys[$offset]) ? $this->_aValues[$offset] : null;
+		return isset($this->_aKeys[$offset]) ? $this->_aValues[$offset] : null;
 	}
 
 	/**
