@@ -19,7 +19,7 @@ class Includer extends AbstractServiceAccess {
 	 * @param string $sFile
 	 * @return string Path
 	 */
-	public function getPublicFile($sFile) {
+	public function getPublicFilePath($sFile) {
 
 		# Delete parasitics spaces
 		$sFile = str_replace(' ', '', $sFile);
