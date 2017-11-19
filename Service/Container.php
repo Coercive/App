@@ -2,6 +2,7 @@
 namespace Coercive\App\Service;
 
 use ArrayAccess;
+use Coercive\App\Exception\ContainerException;
 
 /**
  * Container
@@ -16,6 +17,9 @@ class Container implements ArrayAccess {
 
 	/** @var array Array access values list */
 	private $_aValues = [];
+
+	/** @var array Array access processed status */
+	private $_aPrepared = [];
 
 	/**
 	 * @inheritdoc
@@ -33,10 +37,28 @@ class Container implements ArrayAccess {
 	 * @see ArrayAccess::offsetGet
 	 *
 	 * @param mixed $offset
-	 * @return mixed|null
+	 * @return mixed
 	 */
 	public function offsetGet($offset) {
-		return isset($this->_aKeys[$offset]) ? $this->_aValues[$offset] : null;
+
+		# Not exist
+		if (!isset($this->_aKeys[$offset])) {
+			throw new ContainerException('Container : this offset does not exist : ' . $offset);
+		}
+
+		# Detect closure or invoke | return the others
+		if (isset($this->_aPrepared[$offset])
+			|| !is_object($this->_aValues[$offset])
+			|| !method_exists($this->_aValues[$offset], '__invoke')
+		) {
+			return $this->_aValues[$offset];
+		}
+
+		# Prepare
+		$this->_aValues[$offset] = $this->_aValues[$offset]($this);
+		$this->_aPrepared[$offset] = true;
+		return $this->_aValues[$offset];
+
 	}
 
 	/**
@@ -61,7 +83,7 @@ class Container implements ArrayAccess {
 	 */
 	public function offsetUnset($offset) {
 		if (isset($this->_aKeys[$offset])) {
-			unset($this->_aValues[$offset], $this->_aKeys[$offset]);
+			unset($this->_aValues[$offset], $this->_aKeys[$offset], $this->_aPrepared[$offset]);
 		}
 	}
 
