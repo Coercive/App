@@ -32,9 +32,8 @@ interface AppInterface {
 	 * Useful for external system
 	 *
 	 * @param Config $oConfig
-	 * @param array $aOptions [optional]
 	 * @return $this
 	 */
-	static public function getApp(Config $oConfig, $aOptions = []);
+	static public function getApp(Config $oConfig);
 
 }
