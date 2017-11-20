@@ -393,7 +393,7 @@ class Config {
 	}
 
 	/**
-	 * GETTER : PUBLIC SESSION_CONFIG
+	 * GETTER : SESSION CONFIG
 	 *
 	 * @return string
 	 */
