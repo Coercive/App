@@ -1,6 +1,8 @@
 <?php
 namespace Coercive\App\Settings;
 
+use Coercive\Security\Session\Config as SessionConfig;
+
 /**
  * Config
  *
@@ -33,6 +35,9 @@ class Config {
 	# PATH
 	const WEBSITE_DIRECTORY = 'WEBSITE_DIRECTORY';
 	const PUBLIC_DIRECTORY = 'PUBLIC_DIRECTORY';
+
+	# OPTIONAL BIND SYSTEM
+	const SESSION_CONFIG = 'SESSION_CONFIG';
 
 	/** @var array Configuration datas */
 	private $_aDatas = [];
@@ -374,6 +379,26 @@ class Config {
 	 */
 	public function getPublicDirectory() {
 		return $this->_aDatas[self::PUBLIC_DIRECTORY] ?? '';
+	}
+
+	/**
+	 * SETTER : SESSION CONFIG
+	 *
+	 * @param SessionConfig $oConfig
+	 * @return $this
+	 */
+	public function setSessionConfig(SessionConfig $oConfig) {
+		$this->_aDatas[self::SESSION_CONFIG] = $oConfig;
+		return $this;
+	}
+
+	/**
+	 * GETTER : PUBLIC SESSION_CONFIG
+	 *
+	 * @return string
+	 */
+	public function getSessionConfig() {
+		return $this->_aDatas[self::SESSION_CONFIG] ?? '';
 	}
 
 }
