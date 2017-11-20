@@ -31,9 +31,10 @@ interface AppInterface {
 	 * The custom code to prepare the App object with options to not start the website
 	 * Useful for external system
 	 *
+	 * @param Config $oConfig
 	 * @param array $aOptions [optional]
 	 * @return $this
 	 */
-	static public function getApp($aOptions = []);
+	static public function getApp(Config $oConfig, $aOptions = []);
 
 }
