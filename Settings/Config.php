@@ -58,10 +58,10 @@ class Config {
 	 * GETTER
 	 *
 	 * @param string $sId
-	 * @return string
+	 * @return mixed|null
 	 */
 	public function get($sId) {
-		return $this->_aDatas[$sId] ?? '';
+		return $this->_aDatas[$sId] ?? null;
 	}
 
 	/**
