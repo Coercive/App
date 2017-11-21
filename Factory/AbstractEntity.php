@@ -1,6 +1,7 @@
 <?php
 namespace Coercive\App\Factory;
 
+use Coercive\App\Core\AbstractApp;
 use Coercive\App\Service\Container;
 use Coercive\App\Settings\EntityInterface;
 
@@ -20,18 +21,20 @@ abstract class AbstractEntity extends Container implements EntityInterface {
 	 * AbstractEntity Constructor.
 	 *
 	 * @param array $aDatas [optional]
+	 * @param AbstractApp $app [optional]
 	 */
-	abstract public function __construct(array $aDatas = []);
+	abstract public function __construct(array $aDatas = [], AbstractApp $app = null);
 
 	/**
 	 * Entities Collection
 	 *
-	 * @param array $aDatas
+	 * @param array $aDatas [optional]
+	 * @param AbstractApp $app [optional]
 	 * @return array
 	 */
-	static public function Collection(array $aDatas = []) {
+	static public function Collection(array $aDatas = [], AbstractApp $app = null) {
 		foreach ($aDatas as $iKey => $aRowDatas) {
-			$aDatas[$iKey] = new static($aRowDatas);
+			$aDatas[$iKey] = new static($aRowDatas, $app);
 		}
 		return $aDatas;
 	}
