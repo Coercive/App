@@ -2,7 +2,6 @@
 namespace Coercive\App\Service;
 
 use ArrayAccess;
-use Coercive\App\Exception\ContainerException;
 
 /**
  * Container
@@ -20,6 +19,16 @@ class Container implements ArrayAccess {
 
 	/** @var array Array access processed status */
 	private $_aPrepared = [];
+
+	/**
+	 * (GET) Property mode
+	 *
+	 * @param string $sName
+	 * @return mixed
+	 */
+	public function __get($sName) {
+		return $this->offsetGet($sName);
+	}
 
 	/**
 	 * @inheritdoc
@@ -43,7 +52,7 @@ class Container implements ArrayAccess {
 
 		# Not exist
 		if (!isset($this->_aKeys[$offset])) {
-			throw new ContainerException('Container : this offset does not exist : ' . $offset);
+			return null;
 		}
 
 		# Detect closure or invoke | return the others
