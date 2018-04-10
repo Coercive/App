@@ -395,10 +395,10 @@ class Config {
 	/**
 	 * GETTER : SESSION CONFIG
 	 *
-	 * @return string
+	 * @return SessionConfig
 	 */
 	public function getSessionConfig() {
-		return $this->_aDatas[self::SESSION_CONFIG] ?? '';
+		return $this->_aDatas[self::SESSION_CONFIG] ?? null;
 	}
 
 }
