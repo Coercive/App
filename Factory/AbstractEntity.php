@@ -13,7 +13,7 @@ use Coercive\App\Settings\EntityInterface;
  *
  * @author  	Anthony Moral <contact@coercive.fr>
  * @copyright   2018 Anthony Moral
- * @license 	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @license 	MIT
  */
 abstract class AbstractEntity extends Container implements EntityInterface
 {
