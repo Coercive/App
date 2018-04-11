@@ -7,27 +7,32 @@ use ArrayAccess;
  * Container
  *
  * @package	Coercive\App\Service
- * @author	Anthony Moral <contact@coercive.fr>
+ * @link https://github.com/Coercive/App
+ *
+ * @author Anthony Moral <contact@coercive.fr>
+ * @copyright 2018 Anthony Moral
+ * @license MIT
  */
-class Container implements ArrayAccess {
-
+class Container implements ArrayAccess
+{
 	/** @var array Array access keys list */
-	private $_aKeys = [];
+	private $keys = [];
 
 	/** @var array Array access values list */
-	private $_aValues = [];
+	private $values = [];
 
 	/** @var array Array access processed status */
-	private $_aPrepared = [];
+	private $prepared = [];
 
 	/**
 	 * (GET) Property mode
 	 *
-	 * @param string $sName
+	 * @param mixed $offset
 	 * @return mixed
 	 */
-	public function __get($sName) {
-		return $this->offsetGet($sName);
+	public function __get($offset)
+	{
+		return $this->offsetGet($offset);
 	}
 
 	/**
@@ -37,8 +42,9 @@ class Container implements ArrayAccess {
 	 * @param mixed $offset
 	 * @return bool
 	 */
-	public function offsetExists($offset) {
-		return isset($this->_aKeys[$offset]);
+	public function offsetExists($offset)
+	{
+		return array_key_exists($offset, $this->keys);
 	}
 
 	/**
@@ -48,26 +54,25 @@ class Container implements ArrayAccess {
 	 * @param mixed $offset
 	 * @return mixed
 	 */
-	public function offsetGet($offset) {
-
+	public function offsetGet($offset)
+	{
 		# Not exist
-		if (!isset($this->_aKeys[$offset])) {
+		if (!$this->offsetExists($offset)) {
 			return null;
 		}
 
 		# Detect closure or invoke | return the others
-		if (isset($this->_aPrepared[$offset])
-			|| !is_object($this->_aValues[$offset])
-			|| !method_exists($this->_aValues[$offset], '__invoke')
+		if (isset($this->prepared[$offset])
+			|| !is_object($this->values[$offset])
+			|| !method_exists($this->values[$offset], '__invoke')
 		) {
-			return $this->_aValues[$offset];
+			return $this->values[$offset];
 		}
 
 		# Prepare
-		$this->_aValues[$offset] = $this->_aValues[$offset]($this);
-		$this->_aPrepared[$offset] = true;
-		return $this->_aValues[$offset];
-
+		$this->values[$offset] = $this->values[$offset]($this);
+		$this->prepared[$offset] = true;
+		return $this->values[$offset];
 	}
 
 	/**
@@ -78,9 +83,10 @@ class Container implements ArrayAccess {
 	 * @param mixed $value
 	 * @return void
 	 */
-	public function offsetSet($offset, $value) {
-		$this->_aValues[$offset] = $value;
-		$this->_aKeys[$offset] = true;
+	public function offsetSet($offset, $value)
+	{
+		$this->values[$offset] = $value;
+		$this->keys[$offset] = true;
 	}
 
 	/**
@@ -90,10 +96,10 @@ class Container implements ArrayAccess {
 	 * @param mixed $offset
 	 * @return void
 	 */
-	public function offsetUnset($offset) {
-		if (isset($this->_aKeys[$offset])) {
-			unset($this->_aValues[$offset], $this->_aKeys[$offset], $this->_aPrepared[$offset]);
+	public function offsetUnset($offset)
+	{
+		if ($this->offsetExists($offset)) {
+			unset($this->values[$offset], $this->keys[$offset], $this->prepared[$offset]);
 		}
 	}
-
 }
