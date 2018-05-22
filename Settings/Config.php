@@ -38,6 +38,7 @@ class Config {
 
 	# OPTIONAL BIND SYSTEM
 	const SESSION_CONFIG = 'SESSION_CONFIG';
+	const DB_ACCESS = 'DB_ACCESS';
 
 	/** @var array Configuration datas */
 	private $_aDatas = [];
@@ -399,6 +400,26 @@ class Config {
 	 */
 	public function getSessionConfig() {
 		return $this->_aDatas[self::SESSION_CONFIG] ?? null;
+	}
+	
+	/**
+	 * SETTER : DB ACCESS
+	 *
+	 * @param Object $oDb
+	 * @return $this
+	 */
+	public function setDbAccess(Object $oDb) {
+		$this->_aDatas[self::DB_ACCESS] = $oDb;
+		return $this;
+	}
+
+	/**
+	 * GETTER : DB ACCESS
+	 *
+	 * @return Object
+	 */
+	public function getDbAccess() {
+		return $this->_aDatas[self::DB_ACCESS] ?? null;
 	}
 
 }
