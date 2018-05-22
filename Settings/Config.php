@@ -405,10 +405,10 @@ class Config {
 	/**
 	 * SETTER : DB ACCESS
 	 *
-	 * @param Object $oDb
+	 * @param mixed $oDb
 	 * @return $this
 	 */
-	public function setDbAccess(Object $oDb) {
+	public function setDbAccess($oDb) {
 		$this->_aDatas[self::DB_ACCESS] = $oDb;
 		return $this;
 	}
@@ -416,7 +416,7 @@ class Config {
 	/**
 	 * GETTER : DB ACCESS
 	 *
-	 * @return Object
+	 * @return mixed
 	 */
 	public function getDbAccess() {
 		return $this->_aDatas[self::DB_ACCESS] ?? null;
