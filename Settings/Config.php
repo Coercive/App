@@ -12,6 +12,7 @@ use Coercive\Security\Session\Config as SessionConfig;
 class Config {
 
 	# MISC
+	const EXCEPTION = 'EXCEPTION';
 	const LANGUAGE = 'LANGUAGE';
 	const LOCALE = 'LOCALE';
 	const CRYPT = 'CRYPT';
@@ -63,6 +64,26 @@ class Config {
 	 */
 	public function get($sId) {
 		return $this->_aDatas[$sId] ?? null;
+	}
+	
+	/**
+	 * SETTER : EXCEPTION
+	 *
+	 * @param bool $activate
+	 * @return $this
+	 */
+	public function setException(bool $activate) {
+		$this->_aDatas[self::EXCEPTION] = $activate;
+		return $this;
+	}
+
+	/**
+	 * GETTER : EXCEPTION
+	 *
+	 * @return bool
+	 */
+	public function getException() {
+		return $this->_aDatas[self::EXCEPTION] ?? true;
 	}
 
 	/**
