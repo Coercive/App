@@ -9,8 +9,8 @@ use Coercive\Security\Session\Config as SessionConfig;
  * @package	Coercive\App\Settings
  * @author	Anthony Moral <contact@coercive.fr>
  */
-class Config {
-
+class Config
+{
 	# MISC
 	const EXCEPTION = 'EXCEPTION';
 	const LANGUAGE = 'LANGUAGE';
@@ -39,31 +39,34 @@ class Config {
 
 	# OPTIONAL BIND SYSTEM
 	const SESSION_CONFIG = 'SESSION_CONFIG';
+	const CACHE_STATUS = 'CACHE_STATUS';
 	const DB_ACCESS = 'DB_ACCESS';
 
 	/** @var array Configuration datas */
-	private $_aDatas = [];
+	private $datas = [];
 
 	/**
 	 * SETTER
 	 *
-	 * @param string $sId
-	 * @param mixed $mValue
+	 * @param string $key
+	 * @param mixed $value
 	 * @return $this
 	 */
-	public function set($sId, $mValue) {
-		$this->_aDatas[$sId] = $mValue;
+	public function set(string $key, $value): Config
+	{
+		$this->datas[$key] = $value;
 		return $this;
 	}
 
 	/**
 	 * GETTER
 	 *
-	 * @param string $sId
+	 * @param string $key
 	 * @return mixed|null
 	 */
-	public function get($sId) {
-		return $this->_aDatas[$sId] ?? null;
+	public function get(string $key)
+	{
+		return $this->datas[$key] ?? null;
 	}
 	
 	/**
@@ -72,8 +75,9 @@ class Config {
 	 * @param bool $activate
 	 * @return $this
 	 */
-	public function setException(bool $activate) {
-		$this->_aDatas[self::EXCEPTION] = $activate;
+	public function setException(bool $activate): Config
+	{
+		$this->datas[self::EXCEPTION] = $activate;
 		return $this;
 	}
 
@@ -82,18 +86,20 @@ class Config {
 	 *
 	 * @return bool
 	 */
-	public function getException() {
-		return $this->_aDatas[self::EXCEPTION] ?? true;
+	public function getException(): bool
+	{
+		return boolval($this->datas[self::EXCEPTION] ?? true);
 	}
 
 	/**
 	 * SETTER : LANGUAGE
 	 *
-	 * @param string $sLanguage
+	 * @param string $language
 	 * @return $this
 	 */
-	public function setLanguage($sLanguage) {
-		$this->_aDatas[self::LANGUAGE] = (string) $sLanguage;
+	public function setLanguage(string $language): Config
+	{
+		$this->datas[self::LANGUAGE] = $language;
 		return $this;
 	}
 
@@ -102,18 +108,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getLanguage() {
-		return $this->_aDatas[self::LANGUAGE] ?? '';
+	public function getLanguage(): string
+	{
+		return strval($this->datas[self::LANGUAGE] ?? '');
 	}
 
 	/**
 	 * SETTER : LOCALES
 	 *
-	 * @param array $aLocale
+	 * @param array $locale
 	 * @return $this
 	 */
-	public function setLocales(array $aLocale) {
-		$this->_aDatas[self::LOCALE] = (array) $aLocale;
+	public function setLocales(array $locale): Config
+	{
+		$this->datas[self::LOCALE] = $locale;
 		return $this;
 	}
 
@@ -122,8 +130,9 @@ class Config {
 	 *
 	 * @return array
 	 */
-	public function getLocale() {
-		return $this->_aDatas[self::LOCALE][$this->getLanguage()] ?? [];
+	public function getLocale(): array
+	{
+		return $this->datas[self::LOCALE][$this->getLanguage()] ?? [];
 	}
 
 	/**
@@ -131,8 +140,9 @@ class Config {
 	 *
 	 * @return $this
 	 */
-	public function resetLocales() {
-		$this->_aDatas[self::LOCALE] = [
+	public function resetLocales(): Config
+	{
+		$this->datas[self::LOCALE] = [
 			'FR' => [
 				'fr', 'FR', 'fr_FR', 'fr_FR.utf8', 'fr_FR.utf-8', 'fra'
 			],
@@ -146,11 +156,12 @@ class Config {
 	/**
 	 * SETTER : CRYPT
 	 *
-	 * @param string $sCrypt
+	 * @param string $crypt
 	 * @return $this
 	 */
-	public function setCrypt($sCrypt) {
-		$this->_aDatas[self::CRYPT] = (string) $sCrypt;
+	public function setCrypt(string $crypt): Config
+	{
+		$this->datas[self::CRYPT] = $crypt;
 		return $this;
 	}
 
@@ -159,18 +170,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getCrypt() {
-		return $this->_aDatas[self::CRYPT] ?? '';
+	public function getCrypt(): string
+	{
+		return strval($this->datas[self::CRYPT] ?? '');
 	}
 
 	/**
 	 * SETTER : PROJECT_ID
 	 *
-	 * @param string $sId
+	 * @param string $id
 	 * @return $this
 	 */
-	public function setProjectId($sId) {
-		$this->_aDatas[self::PROJECT_ID] = (string) $sId;
+	public function setProjectId(string $id): Config
+	{
+		$this->datas[self::PROJECT_ID] = $id;
 		return $this;
 	}
 
@@ -179,18 +192,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getProjectId() {
-		return $this->_aDatas[self::PROJECT_ID] ?? '';
+	public function getProjectId(): string
+	{
+		return strval($this->datas[self::PROJECT_ID] ?? '');
 	}
 
 	/**
 	 * SETTER : PROJECT_NAME
 	 *
-	 * @param string $sName
+	 * @param string $name
 	 * @return $this
 	 */
-	public function setProjectName($sName) {
-		$this->_aDatas[self::PROJECT_NAME] = (string) $sName;
+	public function setProjectName(string $name): Config
+	{
+		$this->datas[self::PROJECT_NAME] = $name;
 		return $this;
 	}
 
@@ -199,18 +214,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getProjectName() {
-		return $this->_aDatas[self::PROJECT_NAME] ?? '';
+	public function getProjectName(): string
+	{
+		return strval($this->datas[self::PROJECT_NAME] ?? '');
 	}
 
 	/**
 	 * SETTER : PROJECT_NAMESPACE
 	 *
-	 * @param string $sNamespace
+	 * @param string $namespace
 	 * @return $this
 	 */
-	public function setProjectNamespace($sNamespace) {
-		$this->_aDatas[self::PROJECT_NAMESPACE] = (string) $sNamespace;
+	public function setProjectNamespace(string $namespace): Config
+	{
+		$this->datas[self::PROJECT_NAMESPACE] = $namespace;
 		return $this;
 	}
 
@@ -219,18 +236,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getProjectNamespace() {
-		return $this->_aDatas[self::PROJECT_NAMESPACE] ?? '';
+	public function getProjectNamespace(): string
+	{
+		return strval($this->datas[self::PROJECT_NAMESPACE] ?? '');
 	}
 
 	/**
 	 * SETTER : EMAIL_WEBMASTER
 	 *
-	 * @param string $sEmail
+	 * @param string $email
 	 * @return $this
 	 */
-	public function setEmailWebmaster($sEmail) {
-		$this->_aDatas[self::EMAIL_WEBMASTER] = (string) $sEmail;
+	public function setEmailWebmaster(string $email): Config
+	{
+		$this->datas[self::EMAIL_WEBMASTER] = $email;
 		return $this;
 	}
 
@@ -239,18 +258,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getEmailWebmaster() {
-		return $this->_aDatas[self::EMAIL_WEBMASTER] ?? '';
+	public function getEmailWebmaster(): string
+	{
+		return strval($this->datas[self::EMAIL_WEBMASTER] ?? '');
 	}
 
 	/**
 	 * SETTER : HOST
 	 *
-	 * @param string $sHost
+	 * @param string $host
 	 * @return $this
 	 */
-	public function setHost($sHost) {
-		$this->_aDatas[self::HOST] = (string) $sHost;
+	public function setHost(string $host): Config
+	{
+		$this->datas[self::HOST] = $host;
 		return $this;
 	}
 
@@ -259,18 +280,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getHost() {
-		return $this->_aDatas[self::HOST] ?? '';
+	public function getHost(): string
+	{
+		return strval($this->datas[self::HOST] ?? '');
 	}
 
 	/**
 	 * SETTER : SCRIPT_FILENAME
 	 *
-	 * @param string $sScriptFilename
+	 * @param string $scriptFilename
 	 * @return $this
 	 */
-	public function setScriptFilename($sScriptFilename) {
-		$this->_aDatas[self::SCRIPT_FILENAME] = (string) $sScriptFilename;
+	public function setScriptFilename(string $scriptFilename): Config
+	{
+		$this->datas[self::SCRIPT_FILENAME] = $scriptFilename;
 		return $this;
 	}
 
@@ -279,18 +302,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getScriptFilename() {
-		return $this->_aDatas[self::SCRIPT_FILENAME] ?? '';
+	public function getScriptFilename(): string
+	{
+		return strval($this->datas[self::SCRIPT_FILENAME] ?? '');
 	}
 
 	/**
 	 * SETTER : DOCUMENT_ROOT
 	 *
-	 * @param string $sDocumentRoot
+	 * @param string $documentRoot
 	 * @return $this
 	 */
-	public function setDocumentRoot($sDocumentRoot) {
-		$this->_aDatas[self::DOCUMENT_ROOT] = (string) $sDocumentRoot;
+	public function setDocumentRoot(string $documentRoot): Config
+	{
+		$this->datas[self::DOCUMENT_ROOT] = $documentRoot;
 		return $this;
 	}
 
@@ -299,18 +324,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getDocumentRoot() {
-		return $this->_aDatas[self::DOCUMENT_ROOT] ?? '';
+	public function getDocumentRoot(): string
+	{
+		return strval($this->datas[self::DOCUMENT_ROOT] ?? '');
 	}
 
 	/**
 	 * SETTER : REQUEST_SCHEME
 	 *
-	 * @param string $sRequestScheme
+	 * @param string $requestScheme
 	 * @return $this
 	 */
-	public function setRequestScheme($sRequestScheme) {
-		$this->_aDatas[self::REQUEST_SCHEME] = (string) $sRequestScheme;
+	public function setRequestScheme(string $requestScheme): Config
+	{
+		$this->datas[self::REQUEST_SCHEME] = $requestScheme;
 		return $this;
 	}
 
@@ -319,18 +346,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getRequestScheme() {
-		return $this->_aDatas[self::REQUEST_SCHEME] ?? '';
+	public function getRequestScheme(): string
+	{
+		return strval($this->datas[self::REQUEST_SCHEME] ?? '');
 	}
 
 	/**
 	 * SETTER : ENV
 	 *
-	 * @param string $sEnv
+	 * @param string $env
 	 * @return $this
 	 */
-	public function setEnv($sEnv) {
-		$this->_aDatas[self::ENV] = (string) $sEnv;
+	public function setEnv(string $env): Config
+	{
+		$this->datas[self::ENV] = $env;
 		return $this;
 	}
 
@@ -339,18 +368,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getEnv() {
-		return $this->_aDatas[self::ENV] ?? '';
+	public function getEnv(): string
+	{
+		return strval($this->datas[self::ENV] ?? '');
 	}
 
 	/**
 	 * SETTER : TEST_MODE
 	 *
-	 * @param bool $bTestMode
+	 * @param bool $status
 	 * @return $this
 	 */
-	public function setTestMode($bTestMode) {
-		$this->_aDatas[self::TEST_MODE] = (bool) $bTestMode;
+	public function setTestMode(bool $status): Config
+	{
+		$this->datas[self::TEST_MODE] = $status;
 		return $this;
 	}
 
@@ -359,18 +390,20 @@ class Config {
 	 *
 	 * @return bool
 	 */
-	public function getTestMode() {
-		return $this->_aDatas[self::TEST_MODE] ?? false;
+	public function getTestMode(): bool
+	{
+		return strval($this->datas[self::TEST_MODE] ?? false);
 	}
 
 	/**
 	 * SETTER : WEBSITE_DIRECTORY
 	 *
-	 * @param string $sWebsiteDirectory
+	 * @param string $websiteDirectory
 	 * @return $this
 	 */
-	public function setWebsiteDirectory($sWebsiteDirectory) {
-		$this->_aDatas[self::WEBSITE_DIRECTORY] = (string) $sWebsiteDirectory;
+	public function setWebsiteDirectory(string $websiteDirectory): Config
+	{
+		$this->datas[self::WEBSITE_DIRECTORY] = $websiteDirectory;
 		return $this;
 	}
 
@@ -379,18 +412,20 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getWebsiteDirectory() {
-		return $this->_aDatas[self::WEBSITE_DIRECTORY] ?? '';
+	public function getWebsiteDirectory(): string
+	{
+		return strval($this->datas[self::WEBSITE_DIRECTORY] ?? '');
 	}
 
 	/**
 	 * SETTER : PUBLIC DIRECTORY
 	 *
-	 * @param string $sFullPath
+	 * @param string $fullPath
 	 * @return $this
 	 */
-	public function setPublicDirectory($sFullPath) {
-		$this->_aDatas[self::PUBLIC_DIRECTORY] = (string) $sFullPath;
+	public function setPublicDirectory(string $fullPath): Config
+	{
+		$this->datas[self::PUBLIC_DIRECTORY] = $fullPath;
 		return $this;
 	}
 
@@ -399,8 +434,9 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public function getPublicDirectory() {
-		return $this->_aDatas[self::PUBLIC_DIRECTORY] ?? '';
+	public function getPublicDirectory(): string
+	{
+		return strval($this->datas[self::PUBLIC_DIRECTORY] ?? '');
 	}
 
 	/**
@@ -409,8 +445,9 @@ class Config {
 	 * @param SessionConfig $oConfig
 	 * @return $this
 	 */
-	public function setSessionConfig(SessionConfig $oConfig) {
-		$this->_aDatas[self::SESSION_CONFIG] = $oConfig;
+	public function setSessionConfig(SessionConfig $oConfig): Config
+	{
+		$this->datas[self::SESSION_CONFIG] = $oConfig;
 		return $this;
 	}
 
@@ -419,8 +456,9 @@ class Config {
 	 *
 	 * @return SessionConfig
 	 */
-	public function getSessionConfig() {
-		return $this->_aDatas[self::SESSION_CONFIG] ?? null;
+	public function getSessionConfig()
+	{
+		return $this->datas[self::SESSION_CONFIG] ?? null;
 	}
 	
 	/**
@@ -429,8 +467,9 @@ class Config {
 	 * @param mixed $oDb
 	 * @return $this
 	 */
-	public function setDbAccess($oDb) {
-		$this->_aDatas[self::DB_ACCESS] = $oDb;
+	public function setDbAccess($oDb): Config
+	{
+		$this->datas[self::DB_ACCESS] = $oDb;
 		return $this;
 	}
 
@@ -439,8 +478,31 @@ class Config {
 	 *
 	 * @return mixed
 	 */
-	public function getDbAccess() {
-		return $this->_aDatas[self::DB_ACCESS] ?? null;
+	public function getDbAccess()
+	{
+		return $this->datas[self::DB_ACCESS] ?? null;
+	}
+
+	/**
+	 * SETTER : CACHE STATUS
+	 *
+	 * @param bool $status
+	 * @return $this
+	 */
+	public function setCacheStatus(bool $status): Config
+	{
+		$this->datas[self::CACHE_STATUS] = $status;
+		return $this;
+	}
+
+	/**
+	 * GETTER : CACHE STATUS
+	 *
+	 * @return bool
+	 */
+	public function getCacheStatus(): bool
+	{
+		return boolval($this->datas[self::CACHE_STATUS] ?? false);
 	}
 
 }
