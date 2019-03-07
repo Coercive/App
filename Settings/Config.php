@@ -13,6 +13,7 @@ class Config
 {
 	# MISC
 	const EXCEPTION = 'EXCEPTION';
+	const LANGUAGES = 'LANGUAGES';
 	const LANGUAGE = 'LANGUAGE';
 	const LOCALE = 'LOCALE';
 	const CRYPT = 'CRYPT';
@@ -89,6 +90,28 @@ class Config
 	public function getException(): bool
 	{
 		return boolval($this->datas[self::EXCEPTION] ?? true);
+	}
+
+	/**
+	 * SETTER : LANGUAGES
+	 *
+	 * @param string $languages
+	 * @return $this
+	 */
+	public function setLanguages(array $languages): Config
+	{
+		$this->datas[self::LANGUAGES] = $languages;
+		return $this;
+	}
+
+	/**
+	 * GETTER : LANGUAGES
+	 *
+	 * @return array
+	 */
+	public function getLanguages(): array
+	{
+		return $this->datas[self::LANGUAGES] ?? [];
 	}
 
 	/**
