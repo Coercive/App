@@ -89,7 +89,7 @@ class Config
 	 */
 	public function getException(): bool
 	{
-		return boolval($this->datas[self::EXCEPTION] ?? true);
+		return boolval($this->datas[self::EXCEPTION] ?? false);
 	}
 
 	/**
