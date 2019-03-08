@@ -7,13 +7,13 @@ namespace Coercive\App\Settings;
  * @package	Coercive\App\Settings
  * @author	Anthony Moral <contact@coercive.fr>
  */
-interface FactoryInterface {
-
+interface FactoryInterface
+{
 	/**
 	 * Return the namespace handled by the current factory
 	 *
+	 * @param string $name The name of called method
 	 * @return string
 	 */
-	public function getNamespace();
-
+	public function getNamespace(string $name);
 }
