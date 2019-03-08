@@ -13,20 +13,19 @@ use Coercive\App\Exception\FactoryException;
  * @link		https://github.com/Coercive/App
  *
  * @author  	Anthony Moral <contact@coercive.fr>
- * @copyright   2017 - 2018 Anthony Moral
- * @license 	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @license 	MIT
  */
-abstract class AbstractFactory implements FactoryInterface {
-
+abstract class AbstractFactory implements FactoryInterface
+{
 	/**
 	 * Single instance of any loaded class
 	 *
 	 * @var array Class SINGLETON
 	 */
-	protected $_aInstances = [];
+	protected $instances = [];
 
-	/** @var string NameSpace */
-	protected $_sNameSpace;
+	/** @var string Namespace */
+	protected $namespace;
 
 	/** @var AbstractApp $app */
 	protected $app;
@@ -37,82 +36,75 @@ abstract class AbstractFactory implements FactoryInterface {
 	 * @param AbstractApp $app
 	 * @throws FactoryException
 	 */
-	public function __construct(AbstractApp $app) {
-
+	public function __construct(AbstractApp $app)
+	{
 		# Bind App
 		$this->app = $app;
-
-		# Namespace directory
-		$this->_sNameSpace = $this->getNamespace();
-		if(!$this->_sNameSpace) {
-			throw new FactoryException('Empty factory namespace given.');
-		}
-
 	}
 
 	/**
 	 * Class Loader
 	 *
-	 * @param string $sName
-	 * @param array $aCustomParams [optional]
+	 * @param string $name
+	 * @param array $arguments [optional]
 	 * @return object Class
 	 * @throws FactoryException
 	 */
-	public function __call($sName, $aCustomParams = []) {
+	public function __call($name, $arguments = [])
+	{
+		# Namespace directory
+		$this->namespace = $this->getNamespace($name);
+		if(!$this->namespace) {
+			throw new FactoryException('Empty factory namespace given.');
+		}
 
 		# Class + Namespace
-		$sClass = $this->_sNameSpace . '\\' . $sName;
+		$class = $this->namespace . '\\' . $name;
 
 		# Already loaded
-		if (isset($this->_aInstances[$sClass])) { return $this->_aInstances[$sClass]; }
+		if (isset($this->instances[$class])) { return $this->instances[$class]; }
 
 		# Undefined class
-		if (!class_exists($sClass)) {
-			throw new FactoryException("Try to call undefined class : $sClass.");
+		if (!class_exists($class)) {
+			throw new FactoryException("Try to call undefined class : $class.");
 		}
 
 		# Reflection
-		$oClass = new ReflectionClass($sClass);
+		$reflexion = new ReflectionClass($class);
 
 		# Class not instantiable (private or protected constructor)
-		if (!$oClass->isInstantiable()) {
-			throw new FactoryException("Class not instantiable : $sClass.");
+		if (!$reflexion->isInstantiable()) {
+			throw new FactoryException("Class not instantiable : $class.");
 		}
 
 		# Constructor detail
-		$oConstructor = $oClass->getConstructor();
+		$constructor = $reflexion->getConstructor();
 
 		# No constructor declared
-		if (null === $oConstructor) {
-			return $this->_aInstances[$sClass] = $oClass->newInstanceWithoutConstructor();
+		if (null === $constructor) {
+			return $this->instances[$class] = $reflexion->newInstanceWithoutConstructor();
 		}
 
-		# Get constructor params
-		$aParams = $oConstructor->getParameters();
-		$iNbParams = $oConstructor->getNumberOfParameters();
-
 		# No constructor params
-		if (!$iNbParams) {
-			return $this->_aInstances[$sClass] = $oClass->newInstance();
+		if (!$constructor->getNumberOfParameters()) {
+			return $this->instances[$class] = $reflexion->newInstance();
 		}
 
 		# Detect if constructor required App
-		$bExpectedApp = false;
-		foreach ($aParams as $oParam) {
-			if ($oParam->getName() === 'app') {
-				$bExpectedApp = true;
+		$expectedApp = false;
+		foreach ($constructor->getParameters() as $parameter) {
+			if ($parameter->getName() === 'app') {
+				$expectedApp = true;
 			}
 		}
 
 		# Constructor does not require App
-		if (!$bExpectedApp) {
-			return $this->_aInstances[$sClass] = $oClass->newInstanceArgs($aCustomParams);
+		if (!$expectedApp) {
+			return $this->instances[$class] = $reflexion->newInstanceArgs($arguments);
 		}
 
 		# Constructor require App
-		array_unshift($aCustomParams, $this->app);
-		return $this->_aInstances[$sClass] = $oClass->newInstanceArgs($aCustomParams);
-
+		array_unshift($arguments, $this->app);
+		return $this->instances[$class] = $reflexion->newInstanceArgs($arguments);
 	}
-
 }
