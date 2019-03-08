@@ -1,6 +1,8 @@
 <?php
 namespace Coercive\App\Service;
 
+use Iterator;
+use Countable;
 use ArrayAccess;
 
 /**
@@ -10,10 +12,10 @@ use ArrayAccess;
  * @link https://github.com/Coercive/App
  *
  * @author Anthony Moral <contact@coercive.fr>
- * @copyright 2018 Anthony Moral
+ * @copyright 2019 Anthony Moral
  * @license MIT
  */
-class Container implements ArrayAccess
+class Container implements ArrayAccess, Iterator, Countable
 {
 	/** @var array Array access keys list */
 	private $keys = [];
@@ -23,6 +25,9 @@ class Container implements ArrayAccess
 
 	/** @var array Array access processed status */
 	private $prepared = [];
+
+	/** @var int Position in array */
+	private $position = 0;
 
 	/**
 	 * (GET) Property mode
@@ -44,7 +49,7 @@ class Container implements ArrayAccess
 	 */
 	public function offsetExists($offset)
 	{
-		return array_key_exists($offset, $this->keys);
+		return (bool) array_keys($this->keys, $offset, true);
 	}
 
 	/**
@@ -86,7 +91,9 @@ class Container implements ArrayAccess
 	public function offsetSet($offset, $value)
 	{
 		$this->values[$offset] = $value;
-		$this->keys[$offset] = true;
+		if(!$this->offsetExists($offset)) {
+			$this->keys[] = $offset;
+		}
 	}
 
 	/**
@@ -99,7 +106,84 @@ class Container implements ArrayAccess
 	public function offsetUnset($offset)
 	{
 		if ($this->offsetExists($offset)) {
-			unset($this->values[$offset], $this->keys[$offset], $this->prepared[$offset]);
+
+			# Delete by key
+			unset($this->values[$offset], $this->prepared[$offset]);
+
+			# Delete by value
+			foreach (array_keys($this->keys, $offset, true) as $key) {
+				unset($this->keys[$key]);
+			}
 		}
+	}
+
+	/**
+	 * @inheritdoc
+	 * @see Countable::count
+	 *
+	 * @return int
+	 */
+	public function count(): int
+	{
+		return count($this->keys);
+	}
+
+	/**
+	 * @inheritdoc
+	 * @see Iterator::current
+	 *
+	 * @return mixed
+	 */
+	public function current()
+	{
+		return $this->values[$this->keys[$this->position]] ?? null;
+	}
+
+	/**
+	 * @inheritdoc
+	 * @see Iterator::next
+	 *
+	 * @return void
+	 */
+	public function next()
+	{
+		++$this->position;
+	}
+
+	/**
+	 * @inheritdoc
+	 * @see Iterator::key
+	 *
+	 * @return void
+	 */
+	public function key()
+	{
+		return $this->keys[$this->position] ?? null;
+	}
+
+	/**
+	 * @inheritdoc
+	 * @see Iterator::valid
+	 *
+	 * @return bool
+	 */
+	public function valid(): bool
+	{
+		return isset($this->keys[$this->position]);
+	}
+
+	/**
+	 * @inheritdoc
+	 * @see Iterator::rewind
+	 *
+	 * @return void
+	 */
+	public function rewind()
+	{
+		# Reinit
+		$this->position = 0;
+
+		# Reorder
+		$this->keys = array_values($this->keys);
 	}
 }
