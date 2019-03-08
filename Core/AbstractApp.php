@@ -12,12 +12,14 @@ use Coercive\App\Settings\AppInterface;
  * Unus pro omnibus, omnes pro uno, nos autem fortes, nos unum sumus.
  *
  * @package Coercive\App\Core
- * @author  Anthony <contact@anthonymoral.fr>
+ * @author Anthony <contact@anthonymoral.fr>
+ * @copyright 2019 Anthony Moral
+ * @license MIT
  *
  * @property Config $Config
  */
-abstract class AbstractApp extends Container implements AppInterface {
-
+abstract class AbstractApp extends Container implements AppInterface
+{
 	/**
 	 * Transform PHP errors to Exception handler
 	 *
@@ -91,10 +93,9 @@ abstract class AbstractApp extends Container implements AppInterface {
 	 * @inheritdoc
 	 * @see AppInterface::__construct
 	 */
-	public function __construct(Config $oConfig) {
-
-		$this['Config'] = function () use($oConfig) { return $oConfig; };
-
+	public function __construct(Config $config)
+	{
+		$this['Config'] = $config;
 	}
 
 	/**
@@ -103,18 +104,17 @@ abstract class AbstractApp extends Container implements AppInterface {
 	 * @param string $sName
 	 * @return object
 	 */
-	public function __get($sName) {
-
+	public function __get($name)
+	{
 		# PROPERTY
-		if(isset($this->{$sName})) { return $this->{$sName}; }
+		if(isset($this->{$name})) { return $this->{$name}; }
 
 		# SKIP ERROR
-		if(!isset($this[$sName])) {
-			throw new InvalidArgumentException('Service not found : ' . $sName);
+		if(!isset($this[$name])) {
+			throw new InvalidArgumentException('Service not found : ' . $name);
 		}
 
-		return $this[$sName];
-
+		# GET SERVICE
+		return $this[$name];
 	}
-
 }
