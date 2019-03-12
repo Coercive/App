@@ -30,6 +30,16 @@ class Container implements ArrayAccess, Iterator, Countable
 	private $position = 0;
 
 	/**
+	 * Datalist for debug
+	 *
+	 * @return array
+	 */
+	public function __debugInfo(): array
+	{
+		return $this->values;
+	}
+
+	/**
 	 * (GET) Property mode
 	 *
 	 * @param mixed $offset
