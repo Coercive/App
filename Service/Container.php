@@ -17,9 +17,6 @@ use ArrayAccess;
  */
 class Container implements ArrayAccess, Iterator, Countable
 {
-	/** @var array Array access keys list */
-	private $keys = [];
-
 	/** @var array Array access values list */
 	private $values = [];
 
@@ -51,6 +48,33 @@ class Container implements ArrayAccess, Iterator, Countable
 	}
 
 	/**
+	 * Creates a copy of array
+	 *
+	 * @return array
+	 */
+	public function getArrayCopy()
+	{
+		return $this->values;
+	}
+
+//	/**
+//	 * Sort the entries by value
+//	 *
+//	 * @return void
+//	 */
+//	public function asort()
+//	{
+//		asort($this->);
+//	}
+
+//	/**
+//	 * Sort the entries by key
+//	 *
+//	 * @return void
+//	 */
+//	public function ksort() { }
+
+	/**
 	 * @inheritdoc
 	 * @see ArrayAccess::offsetExists
 	 *
@@ -59,7 +83,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function offsetExists($offset)
 	{
-		return (bool) array_keys($this->keys, $offset, true);
+		return array_key_exists($offset, $this->values);
 	}
 
 	/**
@@ -101,9 +125,6 @@ class Container implements ArrayAccess, Iterator, Countable
 	public function offsetSet($offset, $value)
 	{
 		$this->values[$offset] = $value;
-		if(!$this->offsetExists($offset)) {
-			$this->keys[] = $offset;
-		}
 	}
 
 	/**
@@ -116,13 +137,9 @@ class Container implements ArrayAccess, Iterator, Countable
 	public function offsetUnset($offset)
 	{
 		if ($this->offsetExists($offset)) {
-
-			# Delete by key
 			unset($this->values[$offset], $this->prepared[$offset]);
-
-			# Delete by value
-			foreach (array_keys($this->keys, $offset, true) as $key) {
-				unset($this->keys[$key]);
+			if($this->position) {
+				--$this->position;
 			}
 		}
 	}
@@ -135,7 +152,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function count(): int
 	{
-		return count($this->keys);
+		return count($this->values);
 	}
 
 	/**
@@ -146,7 +163,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function current()
 	{
-		return $this->values[$this->keys[$this->position]] ?? null;
+		return array_values(array_slice($this->values, $this->position, 1, true))[0] ?? null;
 	}
 
 	/**
@@ -168,7 +185,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function key()
 	{
-		return $this->keys[$this->position] ?? null;
+		return array_keys(array_slice($this->values, $this->position, 1, true))[0] ?? null;
 	}
 
 	/**
@@ -179,7 +196,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function valid(): bool
 	{
-		return isset($this->keys[$this->position]);
+		return [] !== array_slice($this->values, $this->position, 1);
 	}
 
 	/**
@@ -194,6 +211,6 @@ class Container implements ArrayAccess, Iterator, Countable
 		$this->position = 0;
 
 		# Reorder
-		$this->keys = array_values($this->keys);
+		reset($this->values);
 	}
 }
