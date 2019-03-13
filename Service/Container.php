@@ -18,7 +18,7 @@ use ArrayAccess;
 class Container implements ArrayAccess, Iterator, Countable
 {
 	/** @var array Array access values list */
-	private $values = [];
+	private $array = [];
 
 	/** @var array Array access processed status */
 	private $prepared = [];
@@ -33,7 +33,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function __debugInfo(): array
 	{
-		return $this->values;
+		return $this->array;
 	}
 
 	/**
@@ -52,27 +52,32 @@ class Container implements ArrayAccess, Iterator, Countable
 	 *
 	 * @return array
 	 */
-	public function getArrayCopy()
+	public function getArrayCopy(): array
 	{
-		return $this->values;
+		return $this->array;
 	}
 
-//	/**
-//	 * Sort the entries by value
-//	 *
-//	 * @return void
-//	 */
-//	public function asort()
-//	{
-//		asort($this->);
-//	}
+	/**
+	 * Sort the entries by value
+	 *
+	 * @return $this
+	 */
+	public function asort()
+	{
+		asort($this->array);
+		return $this;
+	}
 
-//	/**
-//	 * Sort the entries by key
-//	 *
-//	 * @return void
-//	 */
-//	public function ksort() { }
+	/**
+	 * Sort the entries by key
+	 *
+	 * @return $this
+	 */
+	public function ksort()
+	{
+		ksort($this->array);
+		return $this;
+	}
 
 	/**
 	 * @inheritdoc
@@ -81,9 +86,9 @@ class Container implements ArrayAccess, Iterator, Countable
 	 * @param mixed $offset
 	 * @return bool
 	 */
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
-		return array_key_exists($offset, $this->values);
+		return array_key_exists($offset, $this->array);
 	}
 
 	/**
@@ -102,16 +107,16 @@ class Container implements ArrayAccess, Iterator, Countable
 
 		# Detect closure or invoke | return the others
 		if (isset($this->prepared[$offset])
-			|| !is_object($this->values[$offset])
-			|| !method_exists($this->values[$offset], '__invoke')
+			|| !is_object($this->array[$offset])
+			|| !method_exists($this->array[$offset], '__invoke')
 		) {
-			return $this->values[$offset];
+			return $this->array[$offset];
 		}
 
 		# Prepare
-		$this->values[$offset] = $this->values[$offset]($this);
+		$this->array[$offset] = $this->array[$offset]($this);
 		$this->prepared[$offset] = true;
-		return $this->values[$offset];
+		return $this->array[$offset];
 	}
 
 	/**
@@ -120,11 +125,12 @@ class Container implements ArrayAccess, Iterator, Countable
 	 *
 	 * @param mixed $offset
 	 * @param mixed $value
-	 * @return void
+	 * @return $this
 	 */
 	public function offsetSet($offset, $value)
 	{
-		$this->values[$offset] = $value;
+		$this->array[$offset] = $value;
+		return $this;
 	}
 
 	/**
@@ -137,7 +143,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	public function offsetUnset($offset)
 	{
 		if ($this->offsetExists($offset)) {
-			unset($this->values[$offset], $this->prepared[$offset]);
+			unset($this->array[$offset], $this->prepared[$offset]);
 			if($this->position) {
 				--$this->position;
 			}
@@ -152,7 +158,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function count(): int
 	{
-		return count($this->values);
+		return count($this->array);
 	}
 
 	/**
@@ -163,7 +169,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function current()
 	{
-		return array_values(array_slice($this->values, $this->position, 1, true))[0] ?? null;
+		return array_values(array_slice($this->array, $this->position, 1, true))[0] ?? null;
 	}
 
 	/**
@@ -185,7 +191,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function key()
 	{
-		return array_keys(array_slice($this->values, $this->position, 1, true))[0] ?? null;
+		return array_keys(array_slice($this->array, $this->position, 1, true))[0] ?? null;
 	}
 
 	/**
@@ -196,7 +202,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function valid(): bool
 	{
-		return [] !== array_slice($this->values, $this->position, 1);
+		return [] !== array_slice($this->array, $this->position, 1);
 	}
 
 	/**
@@ -211,6 +217,6 @@ class Container implements ArrayAccess, Iterator, Countable
 		$this->position = 0;
 
 		# Reorder
-		reset($this->values);
+		reset($this->array);
 	}
 }
