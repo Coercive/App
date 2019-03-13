@@ -11,15 +11,18 @@ use Coercive\App\Factory\AbstractServiceAccess;
  * @package	Coercive\App\Service
  * @author	Anthony Moral <contact@coercive.fr>
  */
-class Locale extends AbstractServiceAccess {
-
+class Locale extends AbstractServiceAccess
+{
 	/**
 	 * ALIAS SET LOCALE
 	 *
-	 * @return void
+	 * @param array $locale
+	 * @return $this
 	 */
-	public function setLocale() {
-		call_user_func_array('setlocale', array_merge([LC_ALL], $this->Config->getLocale()));
+	public function set(array $locale = []): Locale
+	{
+		call_user_func_array('setlocale', array_merge([LC_ALL], $locale ?: $this->Config->getLocale()));
+		return $this;
 	}
 
 	/**
@@ -27,20 +30,22 @@ class Locale extends AbstractServiceAccess {
 	 *
 	 * @return DateTimeZone
 	 */
-	public function getServerTimeZone() {
+	public function getServerTimeZone(): DateTimeZone
+	{
 		return new DateTimeZone(ini_get('date.timezone'));
 	}
 
 	/**
 	 * ALIAS PHP strftime()
 	 *
-	 * @param string $sSqlDate
-	 * @param string $sPattern [optional]
+	 * @param string $sqlDate
+	 * @param string $pattern [optional]
 	 * @return string
 	 */
-	public function strftime($sSqlDate, $sPattern = "%A %d %B %Y %H:%M:%S") {
-		$oDate = new DateTime($sSqlDate, $this->getServerTimeZone());
-		return strftime($sPattern, $oDate->getTimestamp());
+	public function strftime(string $sqlDate, string $pattern = "%A %d %B %Y %H:%M:%S"): string
+	{
+		$date = new DateTime($sqlDate, $this->getServerTimeZone());
+		return strftime($pattern, $date->getTimestamp());
 	}
 
 	/**
@@ -48,8 +53,8 @@ class Locale extends AbstractServiceAccess {
 	 *
 	 * @return bool
 	 */
-	public function isJetLagScriptDiffers() {
+	public function isJetLagScriptDiffers(): bool
+	{
 		return (bool) strcmp(date_default_timezone_get(), ini_get('date.timezone'));
 	}
-
 }
