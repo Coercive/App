@@ -101,20 +101,20 @@ abstract class AbstractApp extends Container implements AppInterface
 	/**
 	 * GET SERVICE
 	 *
-	 * @param string $sName
-	 * @return object
+	 * @param string $name
+	 * @return mixed
 	 */
-	public function __get($name)
+	public function __get(string $name)
 	{
 		# PROPERTY
 		if(isset($this->{$name})) { return $this->{$name}; }
 
 		# SKIP ERROR
-		if(!isset($this[$name])) {
+		if(!$this->offsetExists($name)) {
 			throw new InvalidArgumentException('Service not found : ' . $name);
 		}
 
 		# GET SERVICE
-		return $this[$name];
+		return $this->offsetGet($name);
 	}
 }

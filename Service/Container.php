@@ -36,10 +36,10 @@ class Container implements ArrayAccess, Iterator, Countable
 	/**
 	 * (GET) Property mode
 	 *
-	 * @param mixed $offset
+	 * @param string $offset
 	 * @return mixed
 	 */
-	public function __get($offset)
+	public function __get(string $offset)
 	{
 		return $this->offsetGet($offset);
 	}
