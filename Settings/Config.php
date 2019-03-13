@@ -96,7 +96,7 @@ class Config
 	/**
 	 * SETTER : CONSTANTES
 	 *
-	 * @param string $constantes
+	 * @param array $constantes
 	 * @return $this
 	 */
 	public function setConstantes(array $constantes): Config
@@ -118,7 +118,7 @@ class Config
 	/**
 	 * SETTER : LANGUAGES
 	 *
-	 * @param string $languages
+	 * @param array $languages
 	 * @return $this
 	 */
 	public function setLanguages(array $languages): Config
@@ -550,5 +550,4 @@ class Config
 	{
 		return boolval($this->datas[self::CACHE_STATUS] ?? false);
 	}
-
 }
