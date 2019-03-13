@@ -17,40 +17,38 @@ use Coercive\App\Exception\ServiceAccessException;
  * @property Locale $Locale
  * @property Includer $Includer
  */
-abstract class AbstractServiceAccess {
-
+abstract class AbstractServiceAccess
+{
 	/** @var AbstractApp */
 	public $app = null;
 
 	/**
 	 * AUTO GET SERVICE
 	 *
-	 * @param string $sName
-	 * @return object
+	 * @param string $name
+	 * @return mixed
 	 * @throws ServiceAccessException
 	 */
-	public function __get($sName) {
-
+	public function __get(string $name)
+	{
 		# OBJECT PROPERTY
-		if(isset($this->app->{$sName})) { return $this->app->{$sName}; }
+		if(isset($this->app->{$name})) { return $this->app->{$name}; }
 
 		# ARRAY ACCESS
-		if(isset($this->app[$sName])) { return $this->app[$sName]; }
+		if(isset($this->app[$name])) { return $this->app[$name]; }
 
 		# UNDEFINED SERVICE
-		throw new ServiceAccessException("Service is not defined : $sName.");
-
+		throw new ServiceAccessException("Service is not defined : $name.");
 	}
 
 	/**
 	 * AbstractServiceAccess constructor.
 	 *
 	 * @param AbstractApp $app
+	 * @return void
 	 */
-	public function __construct(AbstractApp $app) {
-
+	public function __construct(AbstractApp $app)
+	{
 		$this->app = $app;
-
 	}
-
 }
