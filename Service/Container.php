@@ -169,29 +169,29 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function current()
 	{
-		return array_values(array_slice($this->array, $this->position, 1, true))[0] ?? null;
+		return current($this->array);
 	}
 
 	/**
 	 * @inheritdoc
 	 * @see Iterator::next
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function next()
 	{
-		++$this->position;
+		return next($this->array);
 	}
 
 	/**
 	 * @inheritdoc
 	 * @see Iterator::key
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function key()
 	{
-		return array_keys(array_slice($this->array, $this->position, 1, true))[0] ?? null;
+		return key($this->array);
 	}
 
 	/**
@@ -202,7 +202,7 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function valid(): bool
 	{
-		return [] !== array_slice($this->array, $this->position, 1);
+		return key($this->array) !== null;
 	}
 
 	/**
@@ -213,10 +213,6 @@ class Container implements ArrayAccess, Iterator, Countable
 	 */
 	public function rewind()
 	{
-		# Reinit
-		$this->position = 0;
-
-		# Reorder
 		reset($this->array);
 	}
 }
