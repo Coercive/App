@@ -9,30 +9,27 @@ use Coercive\App\Factory\AbstractServiceAccess;
  * @package	Coercive\App\Service
  * @author	Anthony Moral <contact@coercive.fr>
  */
-class Includer extends AbstractServiceAccess {
-
+class Includer extends AbstractServiceAccess
+{
 	/**
 	 * Automatic + timestamp
 	 *
 	 * Example : dir/name.extension
 	 *
-	 * @param string $sFile
+	 * @param string $file
 	 * @return string Path
 	 */
-	public function getPublicFilePath($sFile) {
-
-		# Delete parasitics spaces
-		$sFile = str_replace(' ', '', $sFile);
-
-		# Delete parasitics slashes
-		$sFile = trim($sFile, '/');
+	public function getPublicFilePath(string $file)
+	{
+		# Delete parasitics spaces / dots / slashes
+		$file = str_replace(' ', '', $file);
+		$file = str_replace('..', '', $file);
+		$file = trim($file, '/');
 
 		# Handle real path
-		$sSrvPath = realpath($this->Config->getPublicDirectory() . "/$sFile");
+		$path = realpath($this->Config->getPublicDirectory() . "/$file");
 
 		# Verify and add timestamp
-		return is_file($sSrvPath) ? "/$sFile?" . filemtime($sSrvPath) : '';
-
+		return is_file($path) ? "/$file?" . filemtime($path) : '';
 	}
-
 }
