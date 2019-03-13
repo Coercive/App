@@ -7,14 +7,13 @@ namespace Coercive\App\Settings;
  * @package	Coercive\App\Settings
  * @author	Anthony Moral <contact@coercive.fr>
  */
-interface EntityInterface {
-
+interface EntityInterface
+{
 	/**
 	 * Entity Collection
 	 *
-	 * @param array $aDatas [optional]
+	 * @param array $datas [optional]
 	 * @return array
 	 */
-	static public function Collection(array $aDatas = []);
-
+	static public function Collection(array $datas = []);
 }
