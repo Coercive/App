@@ -23,9 +23,6 @@ class Container implements ArrayAccess, Iterator, Countable
 	/** @var array Array access processed status */
 	private $prepared = [];
 
-	/** @var int Position in array */
-	private $position = 0;
-
 	/**
 	 * Datalist for debug
 	 *
@@ -144,9 +141,6 @@ class Container implements ArrayAccess, Iterator, Countable
 	{
 		if ($this->offsetExists($offset)) {
 			unset($this->array[$offset], $this->prepared[$offset]);
-			if($this->position) {
-				--$this->position;
-			}
 		}
 	}
 
