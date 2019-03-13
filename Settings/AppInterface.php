@@ -7,16 +7,16 @@ namespace Coercive\App\Settings;
  * @package	Coercive\App\Settings
  * @author	Anthony Moral <contact@coercive.fr>
  */
-interface AppInterface {
-
+interface AppInterface
+{
 	/**
 	 * AppInterface constructor.
 	 *
 	 * Inject and handle configuration parametters in App system
 	 *
-	 * @param Config $oConfig
+	 * @param Config $config
 	 */
-	public function __construct(Config $oConfig);
+	public function __construct(Config $config);
 
 	/**
 	 * Launch the App
@@ -31,9 +31,9 @@ interface AppInterface {
 	 * The custom code to prepare the App object with options to not start the website
 	 * Useful for external system
 	 *
-	 * @param Config $oConfig
+	 * @param Config $config
 	 * @return $this
 	 */
-	static public function getApp(Config $oConfig);
+	static public function getApp(Config $config);
 
 }
