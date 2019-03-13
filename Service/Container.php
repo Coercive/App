@@ -131,6 +131,27 @@ class Container implements ArrayAccess, Iterator, Countable
 	}
 
 	/**
+	 * Push a value to an existing offset
+	 * Convert the offset if not already an array
+	 *
+	 * @param mixed $offset
+	 * @param mixed $value
+	 * @return $this
+	 */
+	public function offsetPush($offset, $value)
+	{
+		if($this->offsetExists($offset)) {
+			$current = $this->offsetGet($offset);
+			if(!is_array($current)) { $current = [$current]; }
+			$this->array[$offset] = array_push($current, $value);
+		}
+		else {
+			$this->array[$offset] = [$value];
+		}
+		return $this;
+	}
+
+	/**
 	 * @inheritdoc
 	 * @see ArrayAccess::offsetUnset
 	 *
