@@ -2,6 +2,7 @@
 namespace Coercive\App\Factory;
 
 use ReflectionClass;
+use ReflectionException;
 use Coercive\App\Core\AbstractApp;
 use Coercive\App\Settings\FactoryInterface;
 use Coercive\App\Exception\FactoryException;
@@ -34,7 +35,6 @@ abstract class AbstractFactory implements FactoryInterface
 	 * AbstractFactory constructor.
 	 *
 	 * @param AbstractApp $app
-	 * @throws FactoryException
 	 */
 	public function __construct(AbstractApp $app)
 	{
@@ -47,8 +47,9 @@ abstract class AbstractFactory implements FactoryInterface
 	 *
 	 * @param string $name
 	 * @param array $arguments [optional]
-	 * @return object Class
+	 * @return mixed
 	 * @throws FactoryException
+	 * @throws ReflectionException
 	 */
 	public function __call($name, $arguments = [])
 	{
