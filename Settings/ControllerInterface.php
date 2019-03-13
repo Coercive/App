@@ -7,30 +7,29 @@ namespace Coercive\App\Settings;
  * @package	Coercive\App\Settings
  * @author	Anthony Moral <contact@coercive.fr>
  */
-interface ControllerInterface {
-
+interface ControllerInterface
+{
 	/**
 	 * Full template load
 	 *
 	 * Used for render your web page at the end of controller process
 	 *
-	 * @param array $aPath
-	 * @param array $aData [optional]
+	 * @param array $path
+	 * @param array $data [optional]
 	 */
-	public function render($aPath, $aData = []);
+	public function render(array $path, array $data = []);
 
 	/**
 	 * Behavior during an ajax request
 	 *
-	 * @param mixed $mData
+	 * @param mixed $data
 	 */
-	public function ajax($mData);
+	public function ajax($data);
 
 	/**
 	 * Useful direct JSON rendering
 	 *
-	 * @param mixed $mData
+	 * @param mixed $data
 	 */
-	public function json($mData);
-
+	public function json($data);
 }
