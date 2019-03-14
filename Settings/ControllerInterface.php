@@ -14,10 +14,10 @@ interface ControllerInterface
 	 *
 	 * Used for render your web page at the end of controller process
 	 *
-	 * @param array $path
+	 * @param string $path
 	 * @param array $data [optional]
 	 */
-	public function render(array $path, array $data = []);
+	public function render(string $path, array $data = []);
 
 	/**
 	 * Behavior during an ajax request
