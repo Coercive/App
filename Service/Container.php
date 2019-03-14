@@ -329,6 +329,17 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	}
 
 	/**
+	 * Alias offsetExists
+	 *
+	 * @param mixed $offset
+	 * @return bool
+	 */
+	public function exists($offset): bool
+	{
+		return $this->offsetExists($offset);
+	}
+
+	/**
 	 * @inheritdoc
 	 * @see ArrayAccess::offsetGet
 	 *
@@ -357,6 +368,17 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	}
 
 	/**
+	 * Alias offsetGet
+	 *
+	 * @param mixed $offset
+	 * @return mixed
+	 */
+	public function get($offset)
+	{
+		return $this->offsetGet($offset);
+	}
+
+	/**
 	 * @inheritdoc
 	 * @see ArrayAccess::offsetSet
 	 *
@@ -368,6 +390,18 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	{
 		$this->array[$offset] = $value;
 		return $this;
+	}
+
+	/**
+	 * Alias offsetSet
+	 *
+	 * @param mixed $offset
+	 * @param mixed $value
+	 * @return $this
+	 */
+	public function set($offset, $value)
+	{
+		return $this->offsetSet($offset, $value);
 	}
 
 	/**
@@ -392,17 +426,42 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	}
 
 	/**
+	 * Alias offsetPush
+	 *
+	 * @param mixed $offset
+	 * @param mixed $value
+	 * @return $this
+	 */
+	public function push($offset, $value)
+	{
+		return $this->offsetPush($offset, $value);
+	}
+
+	/**
 	 * @inheritdoc
 	 * @see ArrayAccess::offsetUnset
 	 *
 	 * @param mixed $offset
-	 * @return void
+	 * @return $this
 	 */
 	public function offsetUnset($offset)
 	{
 		if ($this->offsetExists($offset)) {
 			unset($this->array[$offset], $this->prepared[$offset]);
 		}
+		return $this;
+	}
+
+
+	/**
+	 * Alias offsetUnset
+	 *
+	 * @param mixed $offset
+	 * @return $this
+	 */
+	public function unset($offset)
+	{
+		return $this->offsetUnset($offset);
 	}
 
 	/**
@@ -425,6 +484,16 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	public function count(): int
 	{
 		return count($this->array);
+	}
+
+	/**
+	 * Alias length
+	 *
+	 * @return int
+	 */
+	public function length(): int
+	{
+		return $this->count();
 	}
 
 	/**
