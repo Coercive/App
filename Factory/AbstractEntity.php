@@ -39,17 +39,4 @@ abstract class AbstractEntity extends Container implements EntityInterface
 		}
 		return $datas;
 	}
-
-	/**
-	 * Auto set datas in entity
-	 *
-	 * @param array $datas
-	 * @return void
-	 */
-	protected function autoSet(array $datas)
-	{
-		foreach ($datas as $field => $value) {
-			$this->offsetSet($field, $value);
-		}
-	}
 }
