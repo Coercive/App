@@ -305,6 +305,18 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	}
 
 	/**
+	 * Merge with new array
+	 *
+	 * @param array $data
+	 * @return $this
+	 */
+	public function merge(array $array)
+	{
+		$this->array = array_merge($this->array, $array);
+		return $this;
+	}
+
+	/**
 	 * @inheritdoc
 	 * @see ArrayAccess::offsetExists
 	 *
