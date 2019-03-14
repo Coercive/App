@@ -293,14 +293,14 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	}
 
 	/**
-	 * Append new entrie
+	 * Append new item
 	 *
-	 * @param array $array
+	 * @param mixed $data
 	 * @return $this
 	 */
-	public function append(array $array)
+	public function append($data)
 	{
-		array_push($this->array, $array);
+		array_push($this->array, $data);
 		return $this;
 	}
 
