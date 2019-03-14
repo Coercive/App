@@ -408,6 +408,22 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	}
 
 	/**
+	 * Map callback
+	 *
+	 * @param Closure $function
+	 * @return $this
+	 */
+	public function map(Closure $function)
+	{
+		$results = [];
+		foreach ($this->array as $key => $value)
+		{
+			$results[$key] = $function($value, $key, $this);
+		}
+		return $this->from($results);
+	}
+
+	/**
 	 * Filter callback
 	 *
 	 * @param Closure $function
