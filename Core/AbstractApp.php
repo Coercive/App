@@ -101,10 +101,10 @@ abstract class AbstractApp extends Container implements AppInterface
 	/**
 	 * GET SERVICE
 	 *
-	 * @param string $name
+	 * @param mixed $name
 	 * @return mixed
 	 */
-	public function __get(string $name)
+	public function __get($name)
 	{
 		# PROPERTY
 		if(isset($this->{$name})) { return $this->{$name}; }
