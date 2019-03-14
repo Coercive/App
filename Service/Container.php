@@ -270,6 +270,29 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	}
 
 	/**
+	 * Find by regexp
+	 *
+	 * @param string $pattern
+	 * @param bool $keys [optional]
+	 * @return array
+	 */
+	public function find(string $pattern, bool $keys = true): array
+	{
+		if(!$keys) {
+			$this->prepare();
+		}
+
+		$results = [];
+		foreach ($this->array as $key => $value)
+		{
+			if(preg_match($pattern, $keys ? $key : $value)) {
+				$results[$key] = $value;
+			}
+		}
+		return $results;
+	}
+
+	/**
 	 * Append new entrie
 	 *
 	 * @param array $array
