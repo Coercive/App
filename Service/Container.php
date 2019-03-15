@@ -301,6 +301,9 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	public function append($data)
 	{
 		array_push($this->array, $data);
+		foreach (array_keys($data) as $key) {
+			unset($this->prepared[$key]);
+		}
 		return $this;
 	}
 
@@ -313,6 +316,9 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	public function merge(array $array)
 	{
 		$this->array = array_merge($this->array, $array);
+		foreach (array_keys($array) as $key) {
+			unset($this->prepared[$key]);
+		}
 		return $this;
 	}
 
@@ -389,6 +395,7 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	public function offsetSet($offset, $value)
 	{
 		$this->array[$offset] = $value;
+		unset($this->prepared[$offset]);
 		return $this;
 	}
 
@@ -422,6 +429,7 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 		else {
 			$this->array[$offset] = [$value];
 		}
+		unset($this->prepared[$offset]);
 		return $this;
 	}
 
