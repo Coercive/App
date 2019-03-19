@@ -23,7 +23,11 @@ class Config
 	const PROJECT_ID = 'PROJECT_ID';
 	const PROJECT_NAME = 'PROJECT_NAME';
 	const PROJECT_NAMESPACE = 'PROJECT_NAMESPACE';
+	const EMAIL = 'EMAIL';
+	const EMAILS = 'EMAILS';
 	const EMAIL_WEBMASTER = 'EMAIL_WEBMASTER';
+	const EMAIL_WEBMASTERS = 'EMAIL_WEBMASTERS';
+	const EMAIL_STATUS = 'EMAIL_STATUS';
 
 	# HOST
 	const HOST = 'HOST';
@@ -307,6 +311,94 @@ class Config
 	public function getEmailWebmaster(): string
 	{
 		return strval($this->datas[self::EMAIL_WEBMASTER] ?? '');
+	}
+
+	/**
+	 * SETTER : EMAIL_WEBMASTERS
+	 *
+	 * @param array $emails
+	 * @return $this
+	 */
+	public function setEmailWebmasters(array $emails): Config
+	{
+		$this->datas[self::EMAIL_WEBMASTERS] = $emails;
+		return $this;
+	}
+
+	/**
+	 * GETTER : EMAIL_WEBMASTERS
+	 *
+	 * @return array
+	 */
+	public function getEmailWebmasters(): array
+	{
+		return (array) ($this->datas[self::EMAIL_WEBMASTERS] ?? []);
+	}
+
+	/**
+	 * SETTER : EMAIL
+	 *
+	 * @param string $email
+	 * @return $this
+	 */
+	public function setEmail(string $email): Config
+	{
+		$this->datas[self::EMAIL] = $email;
+		return $this;
+	}
+
+	/**
+	 * GETTER : EMAIL
+	 *
+	 * @return string
+	 */
+	public function getEmail(): string
+	{
+		return strval($this->datas[self::EMAIL] ?? '');
+	}
+
+	/**
+	 * SETTER : EMAILS
+	 *
+	 * @param array $emails
+	 * @return $this
+	 */
+	public function setEmails(array $emails): Config
+	{
+		$this->datas[self::EMAILS] = $emails;
+		return $this;
+	}
+
+	/**
+	 * GETTER : EMAILS
+	 *
+	 * @return array
+	 */
+	public function getEmails(): array
+	{
+		return (array) ($this->datas[self::EMAILS] ?? []);
+	}
+
+	/**
+	 * SETTER : EMAIL_STATUS
+	 *
+	 * @param bool $status
+	 * @return $this
+	 */
+	public function setEmailStatus(bool $status): Config
+	{
+		$this->datas[self::EMAIL_STATUS] = $status;
+		return $this;
+	}
+
+	/**
+	 * GETTER : EMAIL_STATUS
+	 *
+	 * @return bool
+	 */
+	public function getEmailStatus(): bool
+	{
+		return boolval($this->datas[self::EMAIL_STATUS] ?? false);
 	}
 
 	/**
