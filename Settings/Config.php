@@ -40,8 +40,10 @@ class Config
 	const TEST_MODE = 'TEST_MODE';
 
 	# PATH
+	const PUBLIC_DATA_DIRECTORY = 'PUBLIC_DATA_DIRECTORY';
 	const DATA_DIRECTORY = 'DATA_DIRECTORY';
 	const FILE_DIRECTORY = 'FILE_DIRECTORY';
+	const PUBLIC_FILE_DIRECTORY = 'PUBLIC_FILE_DIRECTORY';
 	const PUBLIC_DIRECTORY = 'PUBLIC_DIRECTORY';
 	const WEBSITE_DIRECTORY = 'WEBSITE_DIRECTORY';
 
@@ -558,6 +560,28 @@ class Config
 	}
 
 	/**
+	 * SETTER : PUBLIC DATA DIRECTORY
+	 *
+	 * @param string $path
+	 * @return $this
+	 */
+	public function setPublicDataDirectory(string $path): Config
+	{
+		$this->datas[self::PUBLIC_DATA_DIRECTORY] = $path;
+		return $this;
+	}
+
+	/**
+	 * GETTER : PUBLIC DATA DIRECTORY
+	 *
+	 * @return string
+	 */
+	public function getPublicDataDirectory(): string
+	{
+		return strval($this->datas[self::PUBLIC_DATA_DIRECTORY] ?? '');
+	}
+
+	/**
 	 * SETTER : FILE DIRECTORY
 	 *
 	 * @param string $path
@@ -577,6 +601,28 @@ class Config
 	public function getFileDirectory(): string
 	{
 		return strval($this->datas[self::FILE_DIRECTORY] ?? '');
+	}
+
+	/**
+	 * SETTER : PUBLIC FILE DIRECTORY
+	 *
+	 * @param string $path
+	 * @return $this
+	 */
+	public function setPublicFileDirectory(string $path): Config
+	{
+		$this->datas[self::PUBLIC_FILE_DIRECTORY] = $path;
+		return $this;
+	}
+
+	/**
+	 * GETTER : PUBLIC FILE DIRECTORY
+	 *
+	 * @return string
+	 */
+	public function getPublicFileDirectory(): string
+	{
+		return strval($this->datas[self::PUBLIC_FILE_DIRECTORY] ?? '');
 	}
 
 	/**
