@@ -40,8 +40,10 @@ class Config
 	const TEST_MODE = 'TEST_MODE';
 
 	# PATH
-	const WEBSITE_DIRECTORY = 'WEBSITE_DIRECTORY';
+	const DATA_DIRECTORY = 'DATA_DIRECTORY';
+	const FILE_DIRECTORY = 'FILE_DIRECTORY';
 	const PUBLIC_DIRECTORY = 'PUBLIC_DIRECTORY';
+	const WEBSITE_DIRECTORY = 'WEBSITE_DIRECTORY';
 
 	# OPTIONAL BIND SYSTEM
 	const SESSION_CONFIG = 'SESSION_CONFIG';
@@ -531,6 +533,50 @@ class Config
 	public function getTestMode(): bool
 	{
 		return strval($this->datas[self::TEST_MODE] ?? false);
+	}
+
+	/**
+	 * SETTER : DATA DIRECTORY
+	 *
+	 * @param string $path
+	 * @return $this
+	 */
+	public function setDataDirectory(string $path): Config
+	{
+		$this->datas[self::DATA_DIRECTORY] = $path;
+		return $this;
+	}
+
+	/**
+	 * GETTER : DATA DIRECTORY
+	 *
+	 * @return string
+	 */
+	public function getDataDirectory(): string
+	{
+		return strval($this->datas[self::DATA_DIRECTORY] ?? '');
+	}
+
+	/**
+	 * SETTER : FILE DIRECTORY
+	 *
+	 * @param string $path
+	 * @return $this
+	 */
+	public function setFileDirectory(string $path): Config
+	{
+		$this->datas[self::FILE_DIRECTORY] = $path;
+		return $this;
+	}
+
+	/**
+	 * GETTER : FILE DIRECTORY
+	 *
+	 * @return string
+	 */
+	public function getFileDirectory(): string
+	{
+		return strval($this->datas[self::FILE_DIRECTORY] ?? '');
 	}
 
 	/**
