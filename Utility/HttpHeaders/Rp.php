@@ -13,13 +13,9 @@ use Coercive\App\Service\Container;
  */
 class Rp extends Container
 {
-	use TraitToString;
-
 	const NAME = 'Referrer-Policy';
 	const META_NAME = 'referrer';
-	const DEFAULT = [
-		'no-referrer-when-downgrade' => []
-	];
+	const DEFAULT = 'no-referrer-when-downgrade';
 
 	/**
 	 * Send header
@@ -29,7 +25,7 @@ class Rp extends Container
 	public function header()
 	{
 		if($this->getArrayCopy()) {
-			header(static::NAME . ': ' . $this->toString());
+			header(self::NAME . ': ' . $this->get(self::NAME));
 		}
 		return $this;
 	}
@@ -41,7 +37,7 @@ class Rp extends Container
 	 */
 	public function meta(): string
 	{
-		return $this->getArrayCopy() ? '<meta name="referrer" content="'. $this->toString('"') .'">' : '';
+		return $this->get(self::NAME) ? '<meta name="referrer" content="'. $this->get(self::NAME) .'">' : '';
 	}
 
 	/**
@@ -51,7 +47,7 @@ class Rp extends Container
 	 */
 	public function setDefault()
 	{
-		return $this->from(self::DEFAULT);
+		return $this->set(self::NAME, self::DEFAULT);
 	}
 
 	/**
@@ -59,7 +55,7 @@ class Rp extends Container
 	 */
 	public function addNoReferrer()
 	{
-		return $this->set('no-referrer', []);
+		return $this->set(self::NAME, 'no-referrer');
 	}
 
 	/**
@@ -67,7 +63,7 @@ class Rp extends Container
 	 */
 	public function addNoReferrerWhenDowngrade()
 	{
-		return $this->set('no-referrer-when-downgrade', []);
+		return $this->set(self::NAME, 'no-referrer-when-downgrade');
 	}
 
 	/**
@@ -75,7 +71,7 @@ class Rp extends Container
 	 */
 	public function addOrigin()
 	{
-		return $this->set('origin', []);
+		return $this->set(self::NAME, 'origin');
 	}
 
 	/**
@@ -83,7 +79,7 @@ class Rp extends Container
 	 */
 	public function addOriginWhenCrossOrigin()
 	{
-		return $this->set('origin-when-cross-origin', []);
+		return $this->set(self::NAME, 'origin-when-cross-origin');
 	}
 
 	/**
@@ -91,7 +87,7 @@ class Rp extends Container
 	 */
 	public function addSameOrigin()
 	{
-		return $this->set('same-origin', []);
+		return $this->set(self::NAME, 'same-origin');
 	}
 
 	/**
@@ -99,7 +95,7 @@ class Rp extends Container
 	 */
 	public function addStrictOrigin()
 	{
-		return $this->set('strict-origin', []);
+		return $this->set(self::NAME, 'strict-origin');
 	}
 
 	/**
@@ -107,7 +103,7 @@ class Rp extends Container
 	 */
 	public function addStrictOriginWhenCrossOrigin()
 	{
-		return $this->set('strict-origin-when-cross-origin', []);
+		return $this->set(self::NAME, 'strict-origin-when-cross-origin');
 	}
 
 	/**
@@ -115,6 +111,6 @@ class Rp extends Container
 	 */
 	public function addUnsafeUrl()
 	{
-		return $this->set('unsafe-url', []);
+		return $this->set(self::NAME, 'unsafe-url');
 	}
 }
