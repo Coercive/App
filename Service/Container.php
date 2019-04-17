@@ -422,9 +422,10 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	public function offsetPush($offset, $value)
 	{
 		if($this->offsetExists($offset)) {
-			$current = $this->offsetGet($offset);
-			if(!is_array($current)) { $current = [$current]; }
-			$this->array[$offset] = array_push($current, $value);
+			if(!is_array($this->array[$offset])) {
+				$this->array[$offset] = (array) $this->array[$offset];
+			}
+			array_push($this->array[$offset], $value);
 		}
 		else {
 			$this->array[$offset] = [$value];
