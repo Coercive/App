@@ -1,5 +1,5 @@
 <?php
-namespace Coercive\App\Utility;
+namespace Coercive\App\Utility\HttpHeaders;
 
 use Coercive\App\Service\Container;
 
@@ -8,7 +8,7 @@ use Coercive\App\Service\Container;
  *
  * @see https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Security-Policy
  *
- * @package	Coercive\App\Service
+ * @package	Coercive\App\Utility
  * @author	Anthony Moral <contact@coercive.fr>
  */
 class Csp extends Container

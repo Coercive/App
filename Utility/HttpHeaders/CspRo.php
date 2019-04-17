@@ -1,17 +1,15 @@
 <?php
-namespace Coercive\App\Utility;
-
-use Coercive\App\Service\Container;
+namespace Coercive\App\Utility\HttpHeaders;
 
 /**
  * Content Security Policy Report Only
  *
  * @see https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Security-Policy
  *
- * @package	Coercive\App\Service
+ * @package	Coercive\App\Utility
  * @author	Anthony Moral <contact@coercive.fr>
  */
-class CspRo extends Container
+class CspRo extends Csp
 {
 	const NAME = 'Content-Security-Policy-Report-Only';
 }
