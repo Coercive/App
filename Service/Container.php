@@ -310,7 +310,7 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	/**
 	 * Merge with new array
 	 *
-	 * @param array $data
+	 * @param array $array
 	 * @return $this
 	 */
 	public function merge(array $array)
