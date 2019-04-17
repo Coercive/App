@@ -55,7 +55,9 @@ class Csp extends Container
 	 */
 	public function header()
 	{
-		header(static::NAME . ': ' . $this->toString());
+		if($this->directives) {
+			header(static::NAME . ': ' . $this->toString());
+		}
 		return $this;
 	}
 
@@ -66,7 +68,7 @@ class Csp extends Container
 	 */
 	public function meta(): string
 	{
-		return '<meta http-equiv="'. static::NAME .'" content="'. $this->toString('"') .'">';
+		return $this->directives ? '<meta http-equiv="'. static::NAME .'" content="'. $this->toString('"') .'">' : '';
 	}
 
 	/**
