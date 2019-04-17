@@ -23,9 +23,6 @@ class Csp extends Container
 		'block-all-mixed-content' => []
 	];
 
-	/** @var array */
-	private $directives = [];
-
 	/**
 	 * Convert directives to string
 	 *
@@ -35,7 +32,7 @@ class Csp extends Container
 	public function toString(string $escape = ''): string
 	{
 		$str = '';
-		foreach ($this->directives as $name => $directives) {
+		foreach ($this->getArrayCopy() as $name => $directives) {
 			$str .= $name;
 			if($directives) {
 				$str .= ' ' . implode(' ', $directives);
@@ -55,7 +52,7 @@ class Csp extends Container
 	 */
 	public function header()
 	{
-		if($this->directives) {
+		if($this->getArrayCopy()) {
 			header(static::NAME . ': ' . $this->toString());
 		}
 		return $this;
@@ -68,7 +65,7 @@ class Csp extends Container
 	 */
 	public function meta(): string
 	{
-		return $this->directives ? '<meta http-equiv="'. static::NAME .'" content="'. $this->toString('"') .'">' : '';
+		return $this->getArrayCopy() ? '<meta http-equiv="'. static::NAME .'" content="'. $this->toString('"') .'">' : '';
 	}
 
 	/**
@@ -78,18 +75,7 @@ class Csp extends Container
 	 */
 	public function setDefault()
 	{
-		$this->directives = self::DEFAULT;
-		return $this;
-	}
-
-	/**
-	 * Get directives for external use or debug
-	 *
-	 * @return array
-	 */
-	public function getDirectives(): array
-	{
-		return $this->directives;
+		return $this->from(self::DEFAULT);
 	}
 
 	/**
