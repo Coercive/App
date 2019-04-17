@@ -58,7 +58,7 @@ class Includer extends AbstractServiceAccess
 	}
 
 	/**
-	 * SRI for file
+	 * SRI for public file
 	 *
 	 * @param string $file
 	 * @return string
@@ -71,6 +71,25 @@ class Includer extends AbstractServiceAccess
 		# Handle real path
 		$path = realpath($this->Config->getPublicDirectory() . "/$file");
 		$content = (string) @file_get_contents($path);
+
+		# Subresource integrity hash
+		return $this->sri($content);
+	}
+
+	/**
+	 * SRI for file
+	 *
+	 * @param string $file
+	 * @return string
+	 */
+	public function getFileSri(string $file): string
+	{
+		# Clean
+		$file = $this->clean($file);
+
+		# Retrieve
+		$file = realpath('/' . $file);
+		$content = $file && is_file($file) ? (string) @file_get_contents($file) : '';
 
 		# Subresource integrity hash
 		return $this->sri($content);
