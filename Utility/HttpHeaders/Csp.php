@@ -13,6 +13,8 @@ use Coercive\App\Service\Container;
  */
 class Csp extends Container
 {
+	use TraitToString;
+
 	const NAME = 'Content-Security-Policy';
 
 	/**
@@ -22,28 +24,6 @@ class Csp extends Container
 		'default-src' => ['https:', "'self'"],
 		'block-all-mixed-content' => []
 	];
-
-	/**
-	 * Convert directives to string
-	 *
-	 * @param string $escape [optional]
-	 * @return string
-	 */
-	public function toString(string $escape = ''): string
-	{
-		$str = '';
-		foreach ($this->getArrayCopy() as $name => $directives) {
-			$str .= $name;
-			if($directives) {
-				$str .= ' ' . implode(' ', $directives);
-			}
-			$str .= '; ';
-		}
-		if($str && $escape) {
-			$str = str_replace($escape, '', $str);
-		}
-		return trim($str);
-	}
 
 	/**
 	 * Send CSP header
