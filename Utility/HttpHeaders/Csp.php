@@ -33,7 +33,7 @@ class Csp extends Container
 	public function header()
 	{
 		if($this->getArrayCopy()) {
-			header(static::NAME . ': ' . $this->toString());
+			header(static::NAME . ': ' . $this->toString(true));
 		}
 		return $this;
 	}
@@ -45,7 +45,7 @@ class Csp extends Container
 	 */
 	public function meta(): string
 	{
-		return $this->getArrayCopy() ? '<meta http-equiv="'. static::NAME .'" content="'. $this->toString('"') .'">' : '';
+		return $this->getArrayCopy() ? '<meta http-equiv="'. static::NAME .'" content="'. $this->toString(true, '"') .'">' : '';
 	}
 
 	/**
