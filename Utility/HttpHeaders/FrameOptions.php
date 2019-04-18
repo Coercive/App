@@ -65,7 +65,7 @@ class FrameOptions extends Container
 	 */
 	public function addAllowFrom(string $uri)
 	{
-		return $this->set('report', "ALLOW-FROM $uri");
+		return $this->set('option', "ALLOW-FROM $uri");
 	}
 
 	/**
