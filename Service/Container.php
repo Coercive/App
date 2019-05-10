@@ -107,13 +107,11 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	}
 
 	/**
-	 * Alias of array copy
-	 *
-	 * @return array
+	 * @return $this
 	 */
-	public function __invoke(): array
+	public function __invoke()
 	{
-		return $this->getArrayCopy();
+		return $this;
 	}
 
 	/**
