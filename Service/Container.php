@@ -6,6 +6,7 @@ use Countable;
 use ArrayAccess;
 use Traversable;
 use ArrayIterator;
+use JsonSerializable;
 use IteratorAggregate;
 
 /**
@@ -18,7 +19,7 @@ use IteratorAggregate;
  * @copyright 2019 Anthony Moral
  * @license MIT
  */
-class Container implements ArrayAccess, Countable, IteratorAggregate
+class Container implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
 	/** @var array Array access values list */
 	private $array = [];
@@ -143,6 +144,17 @@ class Container implements ArrayAccess, Countable, IteratorAggregate
 	{
 		$this->prepare();
 		return json_encode($this->array);
+	}
+
+	/**
+	 * Export the object for json encode
+	 *
+	 * @return array
+	 */
+	public function jsonSerialize(): array
+	{
+		$this->prepare();
+		return $this->array;
 	}
 
 	/**
