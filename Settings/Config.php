@@ -50,6 +50,7 @@ class Config
 	# OPTIONAL BIND SYSTEM
 	const SESSION_CONFIG = 'SESSION_CONFIG';
 	const CACHE_STATUS = 'CACHE_STATUS';
+	const COOKIE_STATUS = 'COOKIE_STATUS';
 	const DB_ACCESS = 'DB_ACCESS';
 
 	/** @var array Configuration datas */
@@ -733,5 +734,27 @@ class Config
 	public function getCacheStatus(): bool
 	{
 		return boolval($this->datas[self::CACHE_STATUS] ?? false);
+	}
+
+	/**
+	 * SETTER : COOKIE STATUS
+	 *
+	 * @param bool $status
+	 * @return $this
+	 */
+	public function setCookieStatus(bool $status): Config
+	{
+		$this->datas[self::COOKIE_STATUS] = $status;
+		return $this;
+	}
+
+	/**
+	 * GETTER : COOKIE STATUS
+	 *
+	 * @return bool
+	 */
+	public function getCookieStatus(): bool
+	{
+		return boolval($this->datas[self::COOKIE_STATUS] ?? false);
 	}
 }
