@@ -46,6 +46,7 @@ class Config
 	const PUBLIC_FILE_DIRECTORY = 'PUBLIC_FILE_DIRECTORY';
 	const PUBLIC_DIRECTORY = 'PUBLIC_DIRECTORY';
 	const WEBSITE_DIRECTORY = 'WEBSITE_DIRECTORY';
+	const TMP_DIRECTORY = 'TMP_DIRECTORY';
 
 	# OPTIONAL BIND SYSTEM
 	const SESSION_CONFIG = 'SESSION_CONFIG';
@@ -668,6 +669,28 @@ class Config
 	public function getPublicDirectory(): string
 	{
 		return strval($this->datas[self::PUBLIC_DIRECTORY] ?? '');
+	}
+	
+	/**
+	 * SETTER : TMP DIRECTORY
+	 *
+	 * @param string $path
+	 * @return $this
+	 */
+	public function setTmpDirectory(string $path): Config
+	{
+		$this->datas[self::TMP_DIRECTORY] = $path;
+		return $this;
+	}
+
+	/**
+	 * GETTER : TMP DIRECTORY
+	 *
+	 * @return string
+	 */
+	public function getTmpDirectory(): string
+	{
+		return strval($this->datas[self::TMP_DIRECTORY] ?? '');
 	}
 
 	/**
