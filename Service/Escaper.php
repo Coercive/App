@@ -1,85 +1,146 @@
 <?php
 namespace Coercive\App\Service;
 
-use Exception;
-use Coercive\App\Factory\AbstractServiceAccess;
-
 /**
  * Escaper
  *
- * @package	Coercive\App\Service
- * @author	Anthony Moral <contact@coercive.fr>
+ * @package Coercive\App\Service
+ * @author Anthony Moral <contact@coercive.fr>
  */
-class Escaper extends AbstractServiceAccess
+class Escaper
 {
-	/**
-	 * Locales constantes for specific typograpic marks
-	 * @param string
-	 */
-	const FR = 'FR';
+	const CH = 'CH';
+	const DE = 'DE';
 	const EN = 'EN';
+	const ES = 'ES';
+	const FR = 'FR';
+	const GR = 'GR';
+	const IT = 'IT';
+	const NL = 'NL';
+	const PL = 'PL';
+	const PT = 'PT';
+	const RU = 'RU';
+	const SE = 'SE';
+
+	const SPACES = [
+		'thin_html5' => '&ThinSpace;', # fine space html5
+		'thin' => '&thinsp;', # fine space
+		'nb' => '&nbsp;', # insecable non breaking
+		'en' => '&ensp;', # 2 spaces en size
+		'em' => '&emsp;', # 4 spaces em size
+		'ndash' => '&ndash;', # n size dash
+		'mdash' => '&mdash;', # m size dash
+	];
 
 	/** @var string Current locale in use */
-	static private $locale = self::EN;
+	private $locale;
+
+	/** @var array spaces in utf8 */
+	private $spaces;
 
 	/**
-	 * Set locale for handle specific typographic marks
-	 * (default EN)
+	 * Pre-compute some var
 	 *
-	 * @param string $locale
+	 * @return Escaper
+	 */
+	private function prepare(): Escaper
+	{
+		foreach (self::SPACES as $name => $entity) {
+			$this->spaces[$name] = html_entity_decode($entity, ENT_HTML5, 'UTF-8');
+		}
+		return $this;
+	}
+
+	/**
+	 * Escaper constructor.
+	 *
+	 * @param string $locale [optional]
 	 * @return void
 	 */
-	static public function setLocale(string $locale)
+	public function __construct(string $locale = '')
 	{
-		self::$locale = $locale;
+		# Init locale
+		$this->setLocale($locale);
+
+		# Prepare chars
+		$this->prepare();
 	}
 
 	/**
-	 * The current locale is French
+	 * Allow to set your own locale
 	 *
-	 * @return bool
+	 * @param string $locale
+	 * @return $this
 	 */
-	static public function isFr(): bool
+	public function setLocale(string $locale): Escaper
 	{
-		return self::FR === self::$locale;
-	}
-
-	/**
-	 * The current locale is English
-	 *
-	 * @return bool
-	 */
-	static public function isEn(): bool
-	{
-		return self::EN === self::$locale;
+		$locale = strtoupper($locale);
+		if(preg_match('`^[A-Z]{2}$`', $locale))
+		{
+			$this->locale = $locale;
+		}
+		else
+		{
+			$this->locale = self::EN;
+		}
+		return $this;
 	}
 
 	/**
 	 * Dactylo to typo quote
 	 *
+	 * @link https://www.brunobernard.com/utilisez-les-bons-guillemets-typographiques/
+	 *
 	 * @param string $str
 	 * @return string
-	 * @throws Exception
 	 */
-	static public function typographicQuotationMarks(string $str): string
+	public function typographicQuotationMarks(string $str): string
 	{
-		if(self::isFr())
+		switch ($this->locale)
 		{
-			$open = '«';
-			$close = '»';
-		}
-		elseif(self::isEn())
-		{
-			$open = '“';
-			$close = '”';
-		}
-		else
-		{
-			throw new Exception('Locale error');
+			case self::FR:
+				$open = '«' . $this->spaces['thin'];
+				$close = $this->spaces['thin'] . '»';
+				break;
+			case self::CH:
+			case self::ES:
+			case self::GR:
+			case self::IT:
+			case self::PT:
+			case self::RU:
+				$open = '«';
+				$close = '»';
+				break;
+			case self::DE:
+				$open = '„';
+				$close = '“';
+				break;
+			case self::PL:
+				$open = '„';
+				$close = '”';
+				break;
+			case self::NL:
+				$open = '‘';
+				$close = '’';
+				break;
+			case self::SE:
+				$open = '”';
+				$close = '”';
+				break;
+			case self::EN:
+			default:
+				$open = '“';
+				$close = '”';
+				break;
 		}
 
+		# Transform quotation marks
 		$str = preg_replace('`(^|\s|\()"([^"]+)"`im', '$1'. $open . '$2' . $close, $str);
 		$str = str_replace('"', $open, $str);
+
+		# Delete duplicate spaces
+		$str = str_replace($open . ' ', $open, $str);
+		$str = str_replace(' ' . $close, $close, $str);
 
 		return $str;
 	}
@@ -90,7 +151,7 @@ class Escaper extends AbstractServiceAccess
 	 * @param string $str
 	 * @return string
 	 */
-	static public function removeQuotationMarks(string $str): string
+	public function removeQuotationMarks(string $str): string
 	{
 		return str_replace('"', '', $str);
 	}
@@ -100,9 +161,8 @@ class Escaper extends AbstractServiceAccess
 	 *
 	 * @param string $str
 	 * @return string
-	 * @throws Exception
 	 */
-	static public function typographicApostropheMarks(string $str): string
+	public function typographicApostropheMarks(string $str): string
 	{
 		return str_replace("'", '’', $str);
 	}
@@ -113,8 +173,37 @@ class Escaper extends AbstractServiceAccess
 	 * @param string $str
 	 * @return string
 	 */
-	static public function removeApostropheMarks(string $str): string
+	public function removeApostropheMarks(string $str): string
 	{
 		return str_replace("'", '', $str);
+	}
+
+	/**
+	 * Format spaces
+	 *
+	 * @param string $str
+	 * @param string $replace [optional]
+	 * @return string
+	 */
+	public function formatSpaces(string $str, string $replace = ' '): string
+	{
+		$str = str_replace($this->spaces, $replace, $str);
+		$str = str_replace(self::SPACES, $replace, $str);
+		return $str;
+	}
+
+	/**
+	 * Encode string for html attributes
+	 *
+	 * @param string $str
+	 * @return string
+	 */
+	public function htmlAttr(string $str): string
+	{
+		$str = $this->typographicQuotationMarks($str);
+		$str = $this->typographicApostropheMarks($str);
+		$str = htmlentities($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+		$str = $this->formatSpaces($str);
+		return $str;
 	}
 }
