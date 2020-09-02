@@ -193,7 +193,7 @@ class Config
 	 */
 	public function getLocale(): array
 	{
-		return $this->datas[self::LOCALE][$this->getLanguage()] ?? [];
+		return $this->datas[self::LOCALE][$this->getLanguage(true)] ?? [];
 	}
 
 	/**
