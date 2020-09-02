@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": ">=7.0",
+        "ext-intl": "*",
         "coercive/session": "^0"
     },
     "autoload": {

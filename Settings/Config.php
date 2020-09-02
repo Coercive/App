@@ -18,6 +18,8 @@ class Config
 	const LANGUAGE = 'LANGUAGE';
 	const LOCALE = 'LOCALE';
 	const CRYPT = 'CRYPT';
+	const CURRENCY = 'CURRENCY';
+	const PRICE_DIGITS = 'PRICE_DIGITS';
 
 	# PROJECT
 	const PROJECT_ID = 'PROJECT_ID';
@@ -28,6 +30,7 @@ class Config
 	const EMAIL_WEBMASTER = 'EMAIL_WEBMASTER';
 	const EMAIL_WEBMASTERS = 'EMAIL_WEBMASTERS';
 	const EMAIL_STATUS = 'EMAIL_STATUS';
+	const EMAIL_FROM = 'EMAIL_FROM';
 
 	# HOST
 	const HOST = 'HOST';
@@ -162,11 +165,13 @@ class Config
 	/**
 	 * GETTER : LANGUAGE
 	 *
+	 * @param bool $full [optional] return full label, not only ISO country
 	 * @return string
 	 */
-	public function getLanguage(): string
+	public function getLanguage(bool $full = false): string
 	{
-		return strval($this->datas[self::LANGUAGE] ?? '');
+		$lang = strval($this->datas[self::LANGUAGE] ?? '');
+		return $full ? $lang : substr($lang, -2, 2);
 	}
 
 	/**
@@ -207,6 +212,52 @@ class Config
 			]
 		];
 		return $this;
+	}
+
+	/**
+	 * SETTER : CURRENCY
+	 *
+	 * @param string $code
+	 * @return $this
+	 */
+	public function setCurrency(string $code): Config
+	{
+		$this->datas[self::CURRENCY] = $code;
+		return $this;
+	}
+
+	/**
+	 * GETTER : CURRENCY
+	 *
+	 * @return string
+	 */
+	public function getCurrency(): string
+	{
+		return strval($this->datas[self::CURRENCY] ?? '');
+	}
+
+	/**
+	 * SETTER : PRICE_DIGITS
+	 *
+	 * @param int $nb
+	 * @return $this
+	 */
+	public function setPriceDigits(int $nb): Config
+	{
+		$this->datas[self::PRICE_DIGITS] = $nb;
+		return $this;
+	}
+
+	/**
+	 * GETTER : PRICE_DIGITS
+	 *
+	 * @param bool $isset [optional] show -1 if not set
+	 * @return int
+	 */
+	public function getPriceDigits(bool $isset = false): int
+	{
+		$i = $this->datas[self::PRICE_DIGITS] ?? null;
+		return $isset && null === $i ? -1 : intval(abs($i));
 	}
 
 	/**
@@ -361,6 +412,28 @@ class Config
 	public function getEmail(): string
 	{
 		return strval($this->datas[self::EMAIL] ?? '');
+	}
+
+	/**
+	 * SETTER : EMAIL_FROM
+	 *
+	 * @param string $email
+	 * @return $this
+	 */
+	public function setEmailFrom(string $email): Config
+	{
+		$this->datas[self::EMAIL_FROM] = $email;
+		return $this;
+	}
+
+	/**
+	 * GETTER : EMAIL_FROM
+	 *
+	 * @return string
+	 */
+	public function getEmailFrom(): string
+	{
+		return strval($this->datas[self::EMAIL_FROM] ?? '');
 	}
 
 	/**
