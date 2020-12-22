@@ -201,7 +201,7 @@ class Config
 	 *
 	 * @return $this
 	 */
-	public function resetLocales(): Config
+	public function setDefaultLocales(): Config
 	{
 		$this->datas[self::LOCALE] = [
 			'FR' => [
@@ -209,6 +209,12 @@ class Config
 			],
 			'EN' => [
 				'en', 'EN', 'en_EN', 'en_EN.utf8', 'en_EN.utf-8', 'eng'
+			],
+			'ES' => [
+				'es', 'ES', 'es_ES', 'es_ES.utf8', 'es_ES.utf-8', 'esp'
+			],
+			'IT' => [
+				'it', 'IT', 'it_IT', 'it_IT.utf8', 'it_IT.utf-8', 'ita'
 			]
 		];
 		return $this;
