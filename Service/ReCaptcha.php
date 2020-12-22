@@ -1,8 +1,14 @@
 <?php
 namespace Coercive\App\Service;
 
+use Exception;
+
 /**
  * ReCaptcha V2 / V3
+ *
+ * @link https://developers.google.com/recaptcha
+ * @documentation V2 https://developers.google.com/recaptcha/docs/display
+ * @documentation V3 https://developers.google.com/recaptcha/docs/v3
  *
  * @package Coercive\App\Service
  * @author Anthony Moral <contact@coercive.fr>
