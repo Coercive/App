@@ -196,10 +196,14 @@ class Escaper
 	 * Encode string for html attributes
 	 *
 	 * @param string $str
+	 * @param bool $striptags [optional]
 	 * @return string
 	 */
-	public function htmlAttr(string $str): string
+	public function htmlAttr(string $str, bool $striptags = false): string
 	{
+		if($striptags) {
+			$str = strip_tags($str);
+		}
 		$str = $this->typographicQuotationMarks($str);
 		$str = $this->typographicApostropheMarks($str);
 		$str = htmlentities($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
