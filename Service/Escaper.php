@@ -201,12 +201,12 @@ class Escaper
 	 */
 	public function htmlAttr(string $str, bool $striptags = false): string
 	{
+		$str = html_entity_decode($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 		if($striptags) {
 			$str = strip_tags($str);
 		}
 		$str = $this->typographicQuotationMarks($str);
 		$str = $this->typographicApostropheMarks($str);
-		$str = htmlentities($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 		$str = $this->formatSpaces($str);
 		return $str;
 	}
