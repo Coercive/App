@@ -199,7 +199,7 @@ class Escaper
 	 * @param bool $striptags [optional]
 	 * @return string
 	 */
-	public function htmlAttr(string $str, bool $striptags = false): string
+	public function htmlAttr(string $str, bool $striptags = true): string
 	{
 		$str = html_entity_decode($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 		if($striptags) {
