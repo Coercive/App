@@ -23,6 +23,7 @@ interface ControllerInterface
 	 * Behavior during an ajax request
 	 *
 	 * @param mixed $data
+	 * @return void
 	 */
 	public function ajax($data);
 
@@ -30,6 +31,23 @@ interface ControllerInterface
 	 * Useful direct JSON rendering
 	 *
 	 * @param mixed $data
+	 * @return void
 	 */
 	public function json($data);
+
+	/**
+	 * Useful direct XML rendering
+	 *
+	 * @param mixed $data
+	 * @return void
+	 */
+	public function xml($data);
+
+	/**
+	 * Useful direct HTML part rendering
+	 *
+	 * @param mixed $data
+	 * @return void
+	 */
+	public function html($data);
 }
