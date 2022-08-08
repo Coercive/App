@@ -57,4 +57,32 @@ class Locale extends AbstractServiceAccess
 	{
 		return (bool) strcmp(date_default_timezone_get(), ini_get('date.timezone'));
 	}
+
+	/**
+	 * List of day names in current locale
+	 *
+	 * @param int $start [optional]
+	 * @return array
+	 */
+	public function getDayNames(int $start = 0): array
+	{
+		$range = range(0,6);
+		foreach ($range as $k => $v) {
+			if($v < $start) {
+				array_shift($range);
+				$range[] = $v;
+			}
+		}
+		$days = [];
+		foreach ($range as $i) {
+			$timestamp = strtotime("last sunday +$i day");
+			$days[$i+1] = [
+				'n-1' => $i,
+				'n' => $i+1,
+				'abbr' => strftime('%a', $timestamp),
+				'full' => strftime('%A', $timestamp),
+			];
+		}
+		return $days;
+	}
 }
