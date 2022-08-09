@@ -64,7 +64,7 @@ class Locale extends AbstractServiceAccess
 	 * @param int $start [optional]
 	 * @return array
 	 */
-	public function getDayNames(int $start = 1): array
+	public function getDayNames(int $start = 0): array
 	{
 		$range = range(0,6);
 		foreach ($range as $r) {
@@ -74,9 +74,12 @@ class Locale extends AbstractServiceAccess
 			}
 		}
 		$days = [];
+		$j = 0;
 		foreach ($range as $i) {
 			$timestamp = strtotime("last sunday +$i day");
 			$days[$i+1] = [
+				'N-1' => $j,
+				'N' => ++$j,
 				'n-1' => $i,
 				'n' => $i+1,
 				'abbr' => strftime('%a', $timestamp),
@@ -92,7 +95,7 @@ class Locale extends AbstractServiceAccess
 	 * @param int $start [optional]
 	 * @return array
 	 */
-	public function getMonthNames(int $start = 1): array
+	public function getMonthNames(int $start = 0): array
 	{
 		$range = range(0,11);
 		foreach ($range as $r) {
@@ -103,9 +106,12 @@ class Locale extends AbstractServiceAccess
 		}
 		$months = [];
 		$y = (int) date('Y');
+		$j = 0;
 		foreach ($range as $i) {
 			$timestamp = strtotime("$y-$i-01");
 			$months[$i+1] = [
+				'N-1' => $j,
+				'N' => ++$j,
 				'n-1' => $i,
 				'n' => $i+1,
 				'abbr' => strftime('%b', $timestamp),
