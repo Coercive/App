@@ -55,6 +55,7 @@ class Config
 	const SESSION_CONFIG = 'SESSION_CONFIG';
 	const CACHE_STATUS = 'CACHE_STATUS';
 	const COOKIE_STATUS = 'COOKIE_STATUS';
+	const RATELIMIT_STATUS = 'RATELIMIT_STATUS';
 	const DB_ACCESS = 'DB_ACCESS';
 
 	/** @var array Configuration datas */
@@ -858,5 +859,27 @@ class Config
 	public function getCookieStatus(): bool
 	{
 		return boolval($this->datas[self::COOKIE_STATUS] ?? false);
+	}
+
+	/**
+	 * SETTER : RATE LIMIT STATUS
+	 *
+	 * @param bool $status
+	 * @return $this
+	 */
+	public function setRateLimitStatus(bool $status): Config
+	{
+		$this->datas[self::RATELIMIT_STATUS] = $status;
+		return $this;
+	}
+
+	/**
+	 * GETTER : RATE LIMIT STATUS
+	 *
+	 * @return bool
+	 */
+	public function getRateLimitStatus(): bool
+	{
+		return boolval($this->datas[self::RATELIMIT_STATUS] ?? false);
 	}
 }
