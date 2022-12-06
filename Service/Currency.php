@@ -209,4 +209,16 @@ class Currency
 			return $html;
 		}
 	}
+
+	/**
+	 * Format price for SQL decimal field
+	 *
+	 * @param float $price
+	 * @param int $decimal [optional]
+	 * @return string
+	 */
+	public function sql(float $price, int $decimal = 2): string
+	{
+		return number_format($price, $decimal, '.', '');
+	}
 }
