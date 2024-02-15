@@ -35,8 +35,8 @@ class SqlTableName
 	private function protect(string $name): string
 	{
 		# Dangerous chars for fields or table / db name
-		if(!preg_match('`^[a-z\d\.-_]+$`i', $name)) {
-			throw new Exception('Illegal characters in the database name or table name');
+		if(!preg_match('`^[a-z\d\._-]+$`i', $name)) {
+			throw new Exception('Illegal characters in the database name or table name : ' . $name);
 		}
 		return '`' . str_replace('.', '`.`', $name) . '`';
 	}
