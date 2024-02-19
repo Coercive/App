@@ -144,11 +144,21 @@ class Config
 	/**
 	 * GETTER : LANGUAGES
 	 *
+	 * @param bool $full [optional] return full label, not only ISO country
 	 * @return array
 	 */
-	public function getLanguages(): array
+	public function getLanguages(bool $full = true): array
 	{
-		return $this->datas[self::LANGUAGES] ?? [];
+		if($full) {
+			return $this->datas[self::LANGUAGES] ?? [];
+		}
+		else {
+			$stack = [];
+			foreach ($this->datas[self::LANGUAGES] ?? [] as $lang) {
+				$stack[] = substr($lang, -2, 2);
+			}
+			return $stack;
+		}
 	}
 
 	/**
