@@ -1,6 +1,7 @@
 <?php
 namespace Coercive\App\Service;
 
+use Closure;
 use Exception;
 
 /**
@@ -19,16 +20,49 @@ class ReCaptcha
 	const URL = 'https://www.google.com/recaptcha/api/siteverify?';
 
 	/** @var string Clé publique */
-	private $publicKey = '';
+	private string $publicKey = '';
 
 	/** @var string Clé privée */
-	private $privateKey = '';
+	private string $privateKey = '';
 
 	/** @var bool Activate Captcha on this page */
-	private $enable = false;
+	private bool $enable = false;
 
-	/** @var float Min score threshold */
-	private $threshold = null;
+	/** @var float|null Min score threshold */
+	private ? float $threshold = null;
+
+	/** @var Closure|null Callback function to store current result of reCaptcha */
+	private ? Closure $storeCallback = null;
+
+	/** @var Closure|null Callback function to retrieve result of reCaptcha */
+	private ? Closure $retrieveCallback = null;
+
+	/**
+	 * Callback function to store current result of reCaptcha.
+	 *
+	 * Callback takes a boolean param in first argument that is the result of the reCaptcha validate method.
+	 *
+	 * @param Closure $callback
+	 * @return $this
+	 */
+	public function setStoreCallback(Closure $callback): self
+	{
+		$this->storeCallback = $callback;
+		return $this;
+	}
+
+	/**
+	 * Callback function to retrieve result of reCaptcha.
+	 *
+	 * Callback returns null if data can't be retrieved.
+	 *
+	 * @param Closure $callback
+	 * @return void
+	 */
+	public function setRetrieveCallback(Closure $callback): void
+	{
+		$this->retrieveCallback = $callback;
+	}
 
 	/**
 	 * Min score threshold, under it's a bot
@@ -157,5 +191,26 @@ class ReCaptcha
 		catch(Exception $e) {
 			return false;
 		}
+	}
+
+	/**
+	 * Validates the reCaptcha using validate(), but with data persistence.
+	 *
+	 * @param string $token
+	 * @return bool
+	 */
+	public function validateAndPersist(string $token): bool
+	{
+		if (null !== $this->retrieveCallback) {
+			return (bool) ($this->retrieveCallback)();
+		}
+
+		$result = $this->validate($token);
+
+		if (null !== $this->storeCallback) {
+			($this->storeCallback)($result);
+		}
+
+		return $result;
 	}
 }
