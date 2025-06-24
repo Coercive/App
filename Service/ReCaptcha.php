@@ -202,7 +202,9 @@ class ReCaptcha
 	public function validateAndPersist(string $token): bool
 	{
 		if (null !== $this->retrieveCallback) {
-			return (bool) ($this->retrieveCallback)();
+			if(null !== $result = ($this->retrieveCallback)()) {
+				return (bool) $result;
+			}
 		}
 
 		$result = $this->validate($token);
