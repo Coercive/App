@@ -23,10 +23,10 @@ abstract class AbstractFactory implements FactoryInterface
 	 *
 	 * @var array Class SINGLETON
 	 */
-	protected $instances = [];
+	protected array $instances = [];
 
 	/** @var string Namespace */
-	protected $namespace;
+	protected string $namespace;
 
 	/** @var AbstractApp $app */
 	protected $app;
@@ -43,6 +43,16 @@ abstract class AbstractFactory implements FactoryInterface
 	}
 
 	/**
+	 * @inheritDoc
+	 * @see FactoryInterface::setInstance()
+	 */
+	public function setInstance(string $name, object $instance): self
+	{
+		$this->instances[$name] = $instance;
+		return $this;
+	}
+
+	/**
 	 * Class Loader
 	 *
 	 * @param string $name
@@ -51,7 +61,7 @@ abstract class AbstractFactory implements FactoryInterface
 	 * @throws FactoryException
 	 * @throws ReflectionException
 	 */
-	public function __call($name, $arguments = [])
+	public function __call(string $name, array $arguments = [])
 	{
 		# Namespace directory
 		$this->namespace = $this->getNamespace($name);
